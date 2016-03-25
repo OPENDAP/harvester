@@ -8,4 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Application extends BaseEntity {
     @Getter @Setter
     private String name;
+    @Getter @Setter
+    private int ping = 0;
+    @Getter @Setter
+    private int log = 0;
+
 }

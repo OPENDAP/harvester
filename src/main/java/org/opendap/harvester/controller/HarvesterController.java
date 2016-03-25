@@ -8,17 +8,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
+
 @Controller
-@RequestMapping("/application")
-public class ApplicationController {
+@RequestMapping("/harvester")
+public class HarvesterController {
     @Autowired
     private ApplicationRegisterService applicationRegisterService;
 
-    @RequestMapping(path = "/register", method = RequestMethod.PUT)
+    @RequestMapping(path = "/registration", method = RequestMethod.GET)
     @ResponseBody
-    public ApplicationDto register(@RequestParam String name){
-        Application register = applicationRegisterService.register(name);
+    public ApplicationDto register(@RequestParam String server,@RequestParam int ping,
+                                   @RequestParam int log  ) throws URISyntaxException {
+        Application register = applicationRegisterService.register(server, ping, log);
         return applicationRegisterService.buildDto(register);
+    }
+
+    @ExceptionHandler
+    private void exception(){
+
     }
 
 }
