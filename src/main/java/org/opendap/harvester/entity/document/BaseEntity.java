@@ -1,4 +1,4 @@
-package org.opendap.harvester.entity;
+package org.opendap.harvester.entity.document;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableMongoRepositories
 public class HarvesterApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(HarvesterApplication.class, args);
 	}

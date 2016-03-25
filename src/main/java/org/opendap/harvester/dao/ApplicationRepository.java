@@ -1,6 +1,6 @@
 package org.opendap.harvester.dao;
 
-import org.opendap.harvester.entity.Application;
+import org.opendap.harvester.entity.document.Application;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
