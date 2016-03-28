@@ -20,4 +20,6 @@ public class ApplicationDto {
     private String registrationTime;
     @Getter @Setter
     private String lastAccessTime;
+    @Getter @Setter
+    private Boolean active = false;
 }

@@ -14,17 +14,15 @@ public class Application extends BaseEntity {
     @Getter @Setter
     private String name;
     @Getter @Setter
-    private int ping = 0;
+    private Integer ping = 0;
     @Getter @Setter
-    private int log = 0;
+    private Integer log = 0;
     @Getter @Setter
     private String versionNumber;
     @Getter @Setter
     private LocalDateTime registrationTime;
     @Getter @Setter
     private LocalDateTime lastAccessTime;
-
-
-
-
+    @Getter @Setter
+    private Boolean active = false;
 }

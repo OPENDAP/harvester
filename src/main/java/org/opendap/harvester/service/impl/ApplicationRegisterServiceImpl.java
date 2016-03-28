@@ -6,6 +6,7 @@ import org.opendap.harvester.entity.document.Application;
 import org.opendap.harvester.service.ApplicationRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -16,10 +17,9 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Instant;
+import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class ApplicationRegisterServiceImpl implements ApplicationRegisterService {
@@ -29,20 +29,38 @@ public class ApplicationRegisterServiceImpl implements ApplicationRegisterServic
     @Override
     public Application register(String server, int ping, int log) throws Exception {
         String hyraxVersion = checkDomainName(server);
+        if (StringUtils.isEmpty(hyraxVersion)){
+            throw new IllegalStateException("Bad version, or can not get version of hyrax instance");
+        }
+        applicationRepository.streamByName(server)
+                .filter(Application::getActive)
+                .forEach(a -> {
+                    a.setActive(false);
+                    applicationRepository.save(a);
+                });
+
         Application application = Application.builder()
                 .name(server)
                 .log(log)
                 .ping(ping)
                 .versionNumber(hyraxVersion)
                 .registrationTime(LocalDateTime.now())
+                .active(true)
                 .build();
         return applicationRepository.save(application);
     }
 
     @Override
-    public List<Application> allApplications() {
-        return applicationRepository.findAll();
+    public Stream<Application> allApplications() {
+        return allApplications(false);
     }
+
+    @Override
+    public Stream<Application> allApplications(boolean onlyActive) {
+        return onlyActive ? applicationRepository.streamByActiveTrue() :
+                applicationRepository.findAll().stream();
+    }
+
 
     private String checkDomainName(String server) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
@@ -68,6 +86,7 @@ public class ApplicationRegisterServiceImpl implements ApplicationRegisterServic
                 .versionNumber(application.getVersionNumber())
                 .registrationTime(String.valueOf(application.getRegistrationTime()))
                 .lastAccessTime(String.valueOf(application.getLastAccessTime()))
+                .active(application.getActive())
                 .build();
     }
 }
