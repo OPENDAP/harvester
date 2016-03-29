@@ -1,3 +1,8 @@
+/**
+ * Entry point to spring boot application. It responses for creating all Spring Beans
+ * like @Controller, @Service and @Configuration
+ * All of this Spring beans types are singletons by default.
+ */
 package org.opendap.harvester;
 
 import org.springframework.boot.SpringApplication;

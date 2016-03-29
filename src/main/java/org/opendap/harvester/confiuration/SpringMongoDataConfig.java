@@ -1,3 +1,6 @@
+/**
+ * DB Connection configuration
+ */
 package org.opendap.harvester.confiuration;
 
 import com.mongodb.Mongo;
@@ -32,6 +35,10 @@ public class SpringMongoDataConfig extends AbstractMongoConfiguration {
         return new MongoClient(databaseServer);
     }
 
+    /**
+     * Adding custom LocalDate and LocalTime converters for Mongo DAO.
+     * @return
+     */
     @Bean
     @Override
     public CustomConversions customConversions() {

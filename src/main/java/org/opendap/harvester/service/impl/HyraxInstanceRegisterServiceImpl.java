@@ -1,9 +1,13 @@
+/**
+ * Service implementation. All business logic should be here.
+ * Call to db are initiating from this place via Repositories
+ */
 package org.opendap.harvester.service.impl;
 
-import org.opendap.harvester.entity.dto.ApplicationDto;
-import org.opendap.harvester.dao.ApplicationRepository;
-import org.opendap.harvester.entity.document.Application;
-import org.opendap.harvester.service.ApplicationRegisterService;
+import org.opendap.harvester.entity.dto.HyraxInstanceDto;
+import org.opendap.harvester.dao.HyraxInstanceRepository;
+import org.opendap.harvester.entity.document.HyraxInstance;
+import org.opendap.harvester.service.HyraxInstanceRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,29 +21,28 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.net.URI;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 @Service
-public class ApplicationRegisterServiceImpl implements ApplicationRegisterService {
+public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterService {
     @Autowired
-    private ApplicationRepository applicationRepository;
+    private HyraxInstanceRepository hyraxInstanceRepository;
 
     @Override
-    public Application register(String server, int ping, int log) throws Exception {
+    public HyraxInstance register(String server, int ping, int log) throws Exception {
         String hyraxVersion = checkDomainName(server);
         if (StringUtils.isEmpty(hyraxVersion)){
             throw new IllegalStateException("Bad version, or can not get version of hyrax instance");
         }
-        applicationRepository.streamByName(server)
-                .filter(Application::getActive)
+        hyraxInstanceRepository.streamByName(server)
+                .filter(HyraxInstance::getActive)
                 .forEach(a -> {
                     a.setActive(false);
-                    applicationRepository.save(a);
+                    hyraxInstanceRepository.save(a);
                 });
 
-        Application application = Application.builder()
+        HyraxInstance hyraxInstance = HyraxInstance.builder()
                 .name(server)
                 .log(log)
                 .ping(ping)
@@ -47,18 +50,18 @@ public class ApplicationRegisterServiceImpl implements ApplicationRegisterServic
                 .registrationTime(LocalDateTime.now())
                 .active(true)
                 .build();
-        return applicationRepository.save(application);
+        return hyraxInstanceRepository.save(hyraxInstance);
     }
 
     @Override
-    public Stream<Application> allApplications() {
-        return allApplications(false);
+    public Stream<HyraxInstance> allHyraxInstances() {
+        return allHyraxInstances(false);
     }
 
     @Override
-    public Stream<Application> allApplications(boolean onlyActive) {
-        return onlyActive ? applicationRepository.streamByActiveTrue() :
-                applicationRepository.findAll().stream();
+    public Stream<HyraxInstance> allHyraxInstances(boolean onlyActive) {
+        return onlyActive ? hyraxInstanceRepository.streamByActiveTrue() :
+                hyraxInstanceRepository.findAll().stream();
     }
 
 
@@ -78,15 +81,15 @@ public class ApplicationRegisterServiceImpl implements ApplicationRegisterServic
     }
 
     @Override
-    public ApplicationDto buildDto(Application application) {
-        return ApplicationDto.builder()
-                .name(application.getName())
-                .ping(application.getPing())
-                .log(application.getLog())
-                .versionNumber(application.getVersionNumber())
-                .registrationTime(String.valueOf(application.getRegistrationTime()))
-                .lastAccessTime(String.valueOf(application.getLastAccessTime()))
-                .active(application.getActive())
+    public HyraxInstanceDto buildDto(HyraxInstance hyraxInstance) {
+        return HyraxInstanceDto.builder()
+                .name(hyraxInstance.getName())
+                .ping(hyraxInstance.getPing())
+                .log(hyraxInstance.getLog())
+                .versionNumber(hyraxInstance.getVersionNumber())
+                .registrationTime(String.valueOf(hyraxInstance.getRegistrationTime()))
+                .lastAccessTime(String.valueOf(hyraxInstance.getLastAccessTime()))
+                .active(hyraxInstance.getActive())
                 .build();
     }
 }

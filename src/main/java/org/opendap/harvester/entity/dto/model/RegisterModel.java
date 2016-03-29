@@ -1,3 +1,6 @@
+/**
+ * Model class which describes how to bind attributes from REST request to java object.
+ */
 package org.opendap.harvester.entity.dto.model;
 
 import lombok.Getter;

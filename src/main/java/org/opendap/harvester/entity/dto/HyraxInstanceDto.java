@@ -1,3 +1,6 @@
+/**
+ * Data transfer object for returning results form BE to FE.
+ */
 package org.opendap.harvester.entity.dto;
 
 import lombok.Builder;
@@ -7,7 +10,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Builder
-public class ApplicationDto {
+public class HyraxInstanceDto {
     @Getter @Setter
     private String name;
     @Getter @Setter
