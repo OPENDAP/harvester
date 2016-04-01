@@ -1,4 +1,4 @@
-# Harvester application
+# Registration and Collector service
 ### Requirments
 To run server you should have been installed on your localhost:
 
