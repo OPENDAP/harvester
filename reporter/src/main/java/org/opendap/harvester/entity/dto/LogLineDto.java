@@ -1,21 +1,17 @@
-package org.opendap.harvester.entity;
+package org.opendap.harvester.entity.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+
+/**
+ * Data transfer object for returning results form BE to FE.
+ */
 
 @Builder
-public class LogLine {
-    /**
-     * <pattern>
-     *      [%X{host}] [%X{ident}] [%X{userid}] [%d{yyyy-MM-dd'T'HH:mm:ss.SSS Z}]
-     *      [%8X{duration}] [%X{http_status}] [%8X{ID}] [%X{SOURCE}] [%X{resourceID}]
-     *      [%X{query}] %n
-     * </pattern>
-     */
+public class LogLineDto {
     @Getter @Setter
     private String host;
     @Getter @Setter
@@ -23,7 +19,7 @@ public class LogLine {
     @Getter @Setter
     private String userId;
     @Getter @Setter
-    private LocalDateTime localDateTime;
+    private String localDateTime;
     @Getter @Setter
     private String duration;
     @Getter @Setter

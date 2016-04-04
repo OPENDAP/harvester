@@ -5,7 +5,6 @@
 package org.opendap.harvester.controller;
 
 import org.opendap.harvester.entity.LogData;
-import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,11 +34,10 @@ public class ReporterController {
 
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     @ResponseBody
-    public LogDataDto getLogsSince(@RequestParam String since) throws Exception {
+    public LogData getLogsSince(@RequestParam String since) throws Exception {
         // Calling service method and returning result
         LocalDateTime localDateTime = LocalDateTime.parse(since);
-        LogData logData = logExtractionService.extractLogDataSince(localDateTime);
-        return logExtractionService.buildDto(logData);
+        return logExtractionService.extractLogDataSince(localDateTime);
     }
 
 }
