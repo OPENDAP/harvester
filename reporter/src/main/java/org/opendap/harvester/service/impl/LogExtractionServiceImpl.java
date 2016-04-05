@@ -5,6 +5,7 @@
 package org.opendap.harvester.service.impl;
 
 import org.opendap.harvester.entity.LogData;
+import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
 import org.opendap.harvester.service.LogLineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,15 @@ public class LogExtractionServiceImpl implements LogExtractionService {
                             .map(logLineService::parseLogLine)
                             .filter(logLine -> logLine.getLocalDateTime().isAfter(time))
                             .collect(Collectors.toList()))
+                .build();
+    }
+
+    @Override
+    public LogDataDto buildDto(LogData logData) {
+        return LogDataDto.builder()
+                .lines(logData.getLines().stream()
+                        .map(logLineService::buildDto)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }
