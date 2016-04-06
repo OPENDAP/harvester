@@ -9,5 +9,7 @@ import java.time.LocalDateTime;
 
 public interface LogExtractionService {
     LogData extractLogDataSince(LocalDateTime time) throws IOException;
+    LogData extractAllLogData() throws IOException;
+
     LogDataDto buildDto(LogData logData);
 }

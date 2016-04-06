@@ -8,11 +8,10 @@ import org.opendap.harvester.entity.LogData;
 import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -34,11 +33,24 @@ public class ReporterController {
 
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     @ResponseBody
-    public LogDataDto getLogsSince(@RequestParam String since) throws Exception {
+    public LogDataDto getLogsSince(@RequestParam(required = false) String since) throws Exception {
         // Calling service method and returning result
-        LocalDateTime localDateTime = LocalDateTime.parse(since);
-        LogData logData = logExtractionService.extractLogDataSince(localDateTime);
+        LogData logData = null;
+        if (!StringUtils.isEmpty(since)){
+            LocalDateTime localDateTime = LocalDateTime.parse(since);
+            logData = logExtractionService.extractLogDataSince(localDateTime);
+        } else {
+            logData = logExtractionService.extractAllLogData();
+        }
+        if (logData == null){
+            throw new IllegalStateException();
+        }
         return logExtractionService.buildDto(logData);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleException(IllegalStateException e) {
     }
 
 }
