@@ -10,4 +10,5 @@ import java.util.stream.Stream;
 public interface HyraxInstanceRepository extends MongoRepository<HyraxInstance, String> {
     Stream<HyraxInstance> streamByName(String name);
     Stream<HyraxInstance> streamByActiveTrue();
+    HyraxInstance findByIdAndActiveTrue(String id);
 }
