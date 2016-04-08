@@ -1,6 +1,7 @@
 package org.opendap.harvester.controller;
 
 import org.opendap.harvester.service.LogCollectorService;
+import org.opendap.harvester.service.LogSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,7 @@ public class HealthCheckController {
     private String harvesterVersion;
 
     @Autowired
-    private LogCollectorService logCollectorService;
+    private LogSchedulerService logSchedulerService;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String healthCheck(){
@@ -23,6 +24,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/test", method = RequestMethod.GET)
     public String test() {
+        logSchedulerService.buildSchedulerAndRun("");
         return "";
     }
 
