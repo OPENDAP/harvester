@@ -11,7 +11,6 @@ import java.util.List;
  * Data transfer object for returning results form BE to FE.
  */
 
-@Builder
 public class LogDataDto {
     @Getter @Setter
     private List<LogLineDto> lines;

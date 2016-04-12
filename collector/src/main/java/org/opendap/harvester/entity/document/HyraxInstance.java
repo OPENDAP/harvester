@@ -18,6 +18,8 @@ public class HyraxInstance extends BaseEntity {
     @Getter @Setter
     private String name;
     @Getter @Setter
+    private String reporterUrl;
+    @Getter @Setter
     private Integer ping = 0;
     @Getter @Setter
     private Integer log = 0;

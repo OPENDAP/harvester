@@ -12,7 +12,7 @@ public class HealthCheckController {
     @Value("${reporter.version}")
     private String reporterVersion;
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "/healthcheck", method = RequestMethod.GET)
     public String healthCheck(){
         return "Application is working! Version = " + reporterVersion;
     }

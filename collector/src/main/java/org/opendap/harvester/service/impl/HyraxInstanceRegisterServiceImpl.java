@@ -9,6 +9,7 @@ import org.opendap.harvester.dao.HyraxInstanceRepository;
 import org.opendap.harvester.entity.document.HyraxInstance;
 import org.opendap.harvester.service.HyraxInstanceRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -24,18 +25,21 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
+import static org.springframework.util.StringUtils.*;
+
 @Service
 public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterService {
     @Autowired
     private HyraxInstanceRepository hyraxInstanceRepository;
 
     @Override
-    public HyraxInstance register(String server, int ping, int log) throws Exception {
-        String hyraxVersion = checkDomainName(server);
-        if (StringUtils.isEmpty(hyraxVersion)){
+    public HyraxInstance register(String serverUrl, String reporterUrl, int ping, int log) throws Exception {
+        String hyraxVersion = checkDomainNameAndGetVersion(serverUrl);
+        if (isEmpty(hyraxVersion)){
             throw new IllegalStateException("Bad version, or can not get version of hyrax instance");
         }
-        hyraxInstanceRepository.streamByName(server)
+        checkReporter(reporterUrl);
+        hyraxInstanceRepository.streamByName(serverUrl)
                 .filter(HyraxInstance::getActive)
                 .forEach(a -> {
                     a.setActive(false);
@@ -43,7 +47,8 @@ public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterSe
                 });
 
         HyraxInstance hyraxInstance = HyraxInstance.builder()
-                .name(server)
+                .name(serverUrl)
+                .reporterUrl(reporterUrl)
                 .log(log)
                 .ping(ping)
                 .versionNumber(hyraxVersion)
@@ -64,8 +69,16 @@ public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterSe
                 hyraxInstanceRepository.findAll().stream();
     }
 
+    private void checkReporter(String server) throws Exception {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> entity = restTemplate.getForEntity(new URI(server + "/healthcheck"), String.class);
+        if (!entity.getStatusCode().is2xxSuccessful()){
+            throw new IllegalStateException("Can not find reporter on this Hyrax Instance");
+        }
+    }
 
-    private String checkDomainName(String server) throws Exception {
+
+    private String checkDomainNameAndGetVersion(String server) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         String xmlString = restTemplate.getForObject(new URI(server + "/version"), String.class);
         XPath xPath =  XPathFactory.newInstance().newXPath();
@@ -84,6 +97,7 @@ public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterSe
     public HyraxInstanceDto buildDto(HyraxInstance hyraxInstance) {
         return HyraxInstanceDto.builder()
                 .name(hyraxInstance.getName())
+                .reporterUrl(hyraxInstance.getReporterUrl())
                 .ping(hyraxInstance.getPing())
                 .log(hyraxInstance.getLog())
                 .versionNumber(hyraxInstance.getVersionNumber())

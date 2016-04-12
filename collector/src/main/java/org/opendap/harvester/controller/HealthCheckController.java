@@ -1,5 +1,7 @@
 package org.opendap.harvester.controller;
 
+import org.opendap.harvester.entity.document.HyraxInstance;
+import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogCollectorService;
 import org.opendap.harvester.service.LogSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/test", method = RequestMethod.GET)
     public String test() {
-        logSchedulerService.buildSchedulerAndRun("");
+        logSchedulerService.buildSchedulerAndRun("57066f2369b7930b73664e14");
         return "";
     }
 

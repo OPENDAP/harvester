@@ -35,7 +35,7 @@ public class ReporterController {
     @ResponseBody
     public LogDataDto getLogsSince(@RequestParam(required = false) String since) throws Exception {
         // Calling service method and returning result
-        LogData logData = null;
+        LogData logData;
         if (!StringUtils.isEmpty(since)){
             LocalDateTime localDateTime = LocalDateTime.parse(since);
             logData = logExtractionService.extractLogDataSince(localDateTime);

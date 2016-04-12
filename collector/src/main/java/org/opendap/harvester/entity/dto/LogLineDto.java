@@ -8,7 +8,6 @@ import lombok.Setter;
  * Data transfer object for returning results form BE to FE.
  */
 
-@Builder
 public class LogLineDto {
     @Getter @Setter
     private String host;

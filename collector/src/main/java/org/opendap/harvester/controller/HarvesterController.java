@@ -10,6 +10,7 @@ import org.opendap.harvester.entity.dto.model.RegisterModel;
 import org.opendap.harvester.service.HyraxInstanceRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,7 +43,9 @@ public class HarvesterController {
     public HyraxInstanceDto register(@Valid @ModelAttribute RegisterModel registerModel) throws Exception {
         // Calling service method and returning result
         HyraxInstance register = hyraxInstanceRegisterService.register(
-                registerModel.getServer(),
+                registerModel.getServerUrl(),
+                StringUtils.isEmpty(registerModel.getReporterUrl()) ?
+                        registerModel.getServerUrl() : registerModel.getReporterUrl(),
                 registerModel.getPing(),
                 registerModel.getLog());
         return hyraxInstanceRegisterService.buildDto(register);

@@ -6,5 +6,6 @@ import org.opendap.harvester.entity.dto.LogDataDto;
 import java.time.LocalDateTime;
 
 public interface LogCollectorService {
-    LogDataDto collectLogs(HyraxInstance hyraxInstance, LocalDateTime since) throws Exception;
+    LogDataDto collectLogs(HyraxInstance hyraxInstance, LocalDateTime since);
+    LogDataDto collectAllLogs(HyraxInstance hyraxInstance);
 }
