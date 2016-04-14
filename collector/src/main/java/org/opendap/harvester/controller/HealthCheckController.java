@@ -26,7 +26,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/test", method = RequestMethod.GET)
     public String test() {
-        logSchedulerService.buildSchedulerAndRun("57066f2369b7930b73664e14");
+//        logSchedulerService.buildSchedulerAndRun("57066f2369b7930b73664e14");
         return "";
     }
 

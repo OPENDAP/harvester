@@ -1,15 +1,15 @@
-package org.opendap.harvester.entity.dto;
+package org.opendap.harvester.entity.document;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Data transfer object for returning results form BE to FE.
- */
-
-@AllArgsConstructor
-@NoArgsConstructor
+@Document
 @Builder
-public class LogLineDto {
+public class LogLine extends BaseEntity {
+    @Getter @Setter
+    private String hyraxInstanceId;
     @Getter @Setter
     private String host;
     @Getter @Setter

@@ -7,7 +7,7 @@ package org.opendap.harvester.controller;
 import org.opendap.harvester.entity.dto.HyraxInstanceDto;
 import org.opendap.harvester.entity.document.HyraxInstance;
 import org.opendap.harvester.entity.dto.model.RegisterModel;
-import org.opendap.harvester.service.HyraxInstanceRegisterService;
+import org.opendap.harvester.service.HyraxInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -30,7 +30,7 @@ public class HarvesterController {
      * After that it can be used in this class like service endpoint.
      */
     @Autowired
-    private HyraxInstanceRegisterService hyraxInstanceRegisterService;
+    private HyraxInstanceService hyraxInstanceService;
 
     /**
      * Called when /harvester/registration request come. Automatically setting up requst attributes to special object.
@@ -42,13 +42,13 @@ public class HarvesterController {
     @ResponseBody
     public HyraxInstanceDto register(@Valid @ModelAttribute RegisterModel registerModel) throws Exception {
         // Calling service method and returning result
-        HyraxInstance register = hyraxInstanceRegisterService.register(
+        HyraxInstance register = hyraxInstanceService.register(
                 registerModel.getServerUrl(),
                 StringUtils.isEmpty(registerModel.getReporterUrl()) ?
                         registerModel.getServerUrl() : registerModel.getReporterUrl(),
                 registerModel.getPing(),
                 registerModel.getLog());
-        return hyraxInstanceRegisterService.buildDto(register);
+        return hyraxInstanceService.buildDto(register);
     }
 
     @RequestMapping(path = "/allHyraxInstances", method = RequestMethod.GET)
@@ -56,8 +56,8 @@ public class HarvesterController {
     public List<HyraxInstanceDto> allHyraxInstances(
             @RequestParam(defaultValue = "true") Boolean onlyActive)
             throws Exception {
-        return hyraxInstanceRegisterService.allHyraxInstances(onlyActive)
-                .map(hyraxInstanceRegisterService::buildDto)
+        return hyraxInstanceService.allHyraxInstances(onlyActive)
+                .map(hyraxInstanceService::buildDto)
                 .collect(Collectors.toList());
     }
 //

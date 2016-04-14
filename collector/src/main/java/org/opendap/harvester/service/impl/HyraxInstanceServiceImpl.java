@@ -1,17 +1,12 @@
-/**
- * Service implementation. All business logic should be here.
- * Call to db are initiating from this place via Repositories
- */
 package org.opendap.harvester.service.impl;
 
 import org.opendap.harvester.entity.dto.HyraxInstanceDto;
 import org.opendap.harvester.dao.HyraxInstanceRepository;
 import org.opendap.harvester.entity.document.HyraxInstance;
-import org.opendap.harvester.service.HyraxInstanceRegisterService;
+import org.opendap.harvester.service.HyraxInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -27,8 +22,12 @@ import java.util.stream.Stream;
 
 import static org.springframework.util.StringUtils.*;
 
+/**
+ * Service implementation. All business logic should be here.
+ * Call to db are initiating from this place via Repositories
+ */
 @Service
-public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterService {
+public class HyraxInstanceServiceImpl implements HyraxInstanceService {
     @Autowired
     private HyraxInstanceRepository hyraxInstanceRepository;
 
@@ -105,5 +104,17 @@ public class HyraxInstanceRegisterServiceImpl implements HyraxInstanceRegisterSe
                 .lastAccessTime(String.valueOf(hyraxInstance.getLastAccessTime()))
                 .active(hyraxInstance.getActive())
                 .build();
+    }
+
+    @Override
+    public void updateLastAccessTime(HyraxInstance hi, LocalDateTime localDateTime) {
+        HyraxInstance hyraxInstance = hyraxInstanceRepository.findByIdAndActiveTrue(hi.getId());
+        hyraxInstance.setLastAccessTime(localDateTime);
+        hyraxInstanceRepository.save(hyraxInstance);
+    }
+
+    @Override
+    public HyraxInstance findHyraxInstanceByName(String hyraxInstanceName) {
+        return hyraxInstanceRepository.findByNameAndActiveTrue(hyraxInstanceName);
     }
 }

@@ -11,4 +11,5 @@ public interface HyraxInstanceRepository extends MongoRepository<HyraxInstance, 
     Stream<HyraxInstance> streamByName(String name);
     Stream<HyraxInstance> streamByActiveTrue();
     HyraxInstance findByIdAndActiveTrue(String id);
+    HyraxInstance findByNameAndActiveTrue(String name);
 }

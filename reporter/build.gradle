@@ -12,7 +12,13 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+war {
+	baseName = 'reporter'
+	version =  '0.0.1-SNAPSHOT'
+}
 
 jar {
 	baseName = 'reporter'
