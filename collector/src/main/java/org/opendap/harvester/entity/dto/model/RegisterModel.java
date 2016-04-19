@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class RegisterModel {
     @Getter @Setter
-    @URL
     private String serverUrl;
     @Getter @Setter
-    @URL
     private String reporterUrl;
     @Getter @Setter
     private int ping;

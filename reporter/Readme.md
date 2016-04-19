@@ -26,8 +26,8 @@ http://{tomcat-address:tomcat-port}/{war-file-name}/healthcheck
 
 All API methods:
 * **GET** [/healthcheck]() - returns string with application version
+* **GET** [/reporter/log]() - returns all log lines from file.
 * **GET** [/reporter/log?since=timestamp]() - returns all log lines since date **timestamp**.
-If **since** parameter is empty it returns all log lines.
 
 
 

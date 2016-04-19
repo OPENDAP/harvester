@@ -19,7 +19,7 @@ public class HealthCheckController {
     @Autowired
     private LogSchedulerService logSchedulerService;
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "/healthcheck", method = RequestMethod.GET)
     public String healthCheck(){
         return "Application is working! Version = " + harvesterVersion;
     }

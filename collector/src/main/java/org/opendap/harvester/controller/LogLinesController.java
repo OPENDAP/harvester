@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/logLines")
+@RequestMapping("harvester/logLines")
 public class LogLinesController {
     @Autowired
     private LogLineService logLineService;
