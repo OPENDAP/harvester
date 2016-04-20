@@ -3,9 +3,8 @@ package org.opendap.harvester.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.joda.time.LocalDateTime;
 
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @Builder
 public class LogLine {

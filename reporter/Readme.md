@@ -2,7 +2,7 @@
 ### Pre requirements
 To build war file you should have been installed on your machine:
 
-1. Java
+1. Java 7
 2. Gradle
 
 ### Installation

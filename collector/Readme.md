@@ -2,7 +2,7 @@
 ### Requirements
 To run server you should have been installed on your localhost:
 
-1. Java
+1. Java 8
 2. Gradle
 3. Mongo db
 

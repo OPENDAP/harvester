@@ -17,16 +17,14 @@ apply plugin: 'war'
 
 war {
 	baseName = 'reporter'
-	version =  '0.0.1-SNAPSHOT'
 }
 
 jar {
 	baseName = 'reporter'
-	version = '0.0.1-SNAPSHOT'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
 	mavenCentral()
@@ -36,6 +34,7 @@ repositories {
 dependencies {
 	//compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.projectlombok:lombok:1.16.6')
+	compile('joda-time:joda-time:2.9.3')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testCompile('org.springframework.boot:spring-boot-starter-test')

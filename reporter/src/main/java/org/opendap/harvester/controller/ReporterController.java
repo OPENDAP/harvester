@@ -4,6 +4,7 @@
  */
 package org.opendap.harvester.controller;
 
+import org.joda.time.LocalDateTime;
 import org.opendap.harvester.entity.LogData;
 import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 
 /**
  * This annotations tell us about what type of Spring bean it is.
