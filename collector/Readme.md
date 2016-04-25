@@ -42,3 +42,5 @@ Returns created db record.
  registered hyrax instances. Parameter **onlyActive** is _true_ by default.
 * **GET** [/harvester/logLines? hyraxInstanceName=http://xxx]() - returns list of all log lines which was
 harvestered for specific Hyrax instance
+* **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]() - returns string representation of
+list of all log lines which was harvestered for specific Hyrax instance
