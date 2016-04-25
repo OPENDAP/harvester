@@ -9,5 +9,6 @@ import java.util.List;
 public interface LogLineService {
     void addLogLines(String hyraxInstanceId, List<LogLineDto> logLineDtoList);
     List<LogLineDto> findLogLines(String hyraxInstanceId);
+    String findLogLinesAsString(String hyraxInstanceId);
     LogLineDto buildDto(LogLine logLine);
 }

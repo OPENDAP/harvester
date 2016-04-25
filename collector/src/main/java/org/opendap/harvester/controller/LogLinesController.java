@@ -26,6 +26,13 @@ public class LogLinesController {
         return logLineService.findLogLines(hyraxInstance.getId());
     }
 
+    @RequestMapping(path = "/string", method = RequestMethod.GET)
+    @ResponseBody
+    public String findAllLogLinesAsString(@RequestParam String hyraxInstanceName){
+        HyraxInstance hyraxInstance = hyraxInstanceService.findHyraxInstanceByName(hyraxInstanceName);
+        return logLineService.findLogLinesAsString(hyraxInstance.getId());
+    }
+
 
 
 }

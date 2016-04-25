@@ -52,6 +52,14 @@ public class LogLineServiceImpl implements LogLineService {
     }
 
     @Override
+    public String findLogLinesAsString(String hyraxInstanceId) {
+        return logLineRepository.streamByHyraxInstanceId(hyraxInstanceId)
+                .map(this::buildDto)
+                .map(LogLineDto::toString)
+                .collect(Collectors.joining("\r\n"));
+    }
+
+    @Override
     public LogLineDto buildDto(LogLine logLine) {
         return LogLineDto.builder()
                 .host(logLine.getHost())
