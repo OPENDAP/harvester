@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * It is Contrller. It means that it can receives REST requests.
  */
 @Controller
-@RequestMapping("/reporter")
+@RequestMapping("/")
 public class ReporterController {
     /**
      * Autowired automatically inject some of the HyraxInstanceRegisterService implementations to this

@@ -22,7 +22,7 @@ public class LogCollectorServiceServiceImpl implements LogCollectorService {
         RestTemplate restTemplate = new RestTemplate();
         try {
             return restTemplate.getForObject(
-                    new URI(hyraxInstance.getReporterUrl() + "/reporter/log?since=" + since),
+                    new URI(hyraxInstance.getReporterUrl() + "/log?since=" + since),
                     LogDataDto.class);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class LogCollectorServiceServiceImpl implements LogCollectorService {
         RestTemplate restTemplate = new RestTemplate();
         try {
             return restTemplate.getForObject(
-                    new URI(hyraxInstance.getReporterUrl() + "/reporter/log"),
+                    new URI(hyraxInstance.getReporterUrl() + "/log"),
                     LogDataDto.class);
         } catch (URISyntaxException e) {
             e.printStackTrace();
