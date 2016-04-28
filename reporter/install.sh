@@ -6,7 +6,7 @@
 #
 #!/bin/sh
 if [ -z "$CATALINA_HOME" ]; then
-    find . -name '*.war' | cpio -updm $1
+    find . -name '*.war' | cpio -updm "$1"
 else
-	find . -name '*.war' | cpio -updm $CATALINA_HOME
+	find . -name '*.war' | cpio -updm "$CATALINA_HOME/webapps"
 fi  
