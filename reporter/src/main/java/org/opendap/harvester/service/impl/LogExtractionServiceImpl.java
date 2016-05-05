@@ -5,6 +5,7 @@
 package org.opendap.harvester.service.impl;
 
 import org.joda.time.LocalDateTime;
+import org.opendap.harvester.config.ConfigurationExtractor;
 import org.opendap.harvester.entity.LogData;
 import org.opendap.harvester.entity.LogLine;
 import org.opendap.harvester.entity.dto.LogDataDto;
@@ -27,8 +28,8 @@ public class LogExtractionServiceImpl implements LogExtractionService {
     @Autowired
     private LogLineService logLineService;
 
-    @Value("${hyrax.logfile.path}")
-    private String hyraxLogfilePath;
+    @Autowired
+    private ConfigurationExtractor configurationExtractor;
 
     @Override
     public LogData extractLogDataSince(LocalDateTime time) throws IOException {
@@ -48,7 +49,7 @@ public class LogExtractionServiceImpl implements LogExtractionService {
     }
 
     private List<LogLine> getLogLines(LocalDateTime since) throws IOException {
-        List<String> allLines = Files.readAllLines(Paths.get(hyraxLogfilePath), Charset.defaultCharset());
+        List<String> allLines = Files.readAllLines(Paths.get(configurationExtractor.getHyraxLogfilePath()), Charset.defaultCharset());
         List<LogLine> parsedLines = new ArrayList<>();
         for (String line : allLines){
             LogLine parsedLogLine = logLineService.parseLogLine(line);

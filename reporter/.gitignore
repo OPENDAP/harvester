@@ -55,6 +55,10 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+#opendap test folder
+/src/main/opendap/WEB-INF/conf/olfs.xml
+
 ### Java template
 *.class
 
