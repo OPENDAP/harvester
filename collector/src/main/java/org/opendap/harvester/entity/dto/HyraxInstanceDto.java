@@ -16,7 +16,7 @@ public class HyraxInstanceDto {
     @Getter @Setter
     private String reporterUrl;
     @Getter @Setter
-    private int ping = 0;
+    private Long ping = 0L;
     @Getter @Setter
     private int log = 0;
     @Getter @Setter

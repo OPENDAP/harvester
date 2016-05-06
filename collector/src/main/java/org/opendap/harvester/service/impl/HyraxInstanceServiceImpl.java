@@ -32,12 +32,13 @@ public class HyraxInstanceServiceImpl implements HyraxInstanceService {
     private HyraxInstanceRepository hyraxInstanceRepository;
 
     @Override
-    public HyraxInstance register(String serverUrl, String reporterUrl, int ping, int log) throws Exception {
+    public HyraxInstance register(String serverUrl, String reporterUrl, Long ping, int log) throws Exception {
         String hyraxVersion = checkDomainNameAndGetVersion(serverUrl);
         if (isEmpty(hyraxVersion)){
             throw new IllegalStateException("Bad version, or can not get version of hyrax instance");
         }
         checkReporter(reporterUrl);
+
         hyraxInstanceRepository.streamByName(serverUrl)
                 .filter(HyraxInstance::getActive)
                 .forEach(a -> {
@@ -45,11 +46,13 @@ public class HyraxInstanceServiceImpl implements HyraxInstanceService {
                     hyraxInstanceRepository.save(a);
                 });
 
+        Long reporterDefaultPing = getReporterDefaultPing(reporterUrl);
+
         HyraxInstance hyraxInstance = HyraxInstance.builder()
                 .name(serverUrl)
                 .reporterUrl(reporterUrl)
                 .log(log)
-                .ping(ping)
+                .ping(Math.min(ping == null ? Long.MAX_VALUE : ping, reporterDefaultPing))
                 .versionNumber(hyraxVersion)
                 .registrationTime(LocalDateTime.now())
                 .active(true)
@@ -74,6 +77,12 @@ public class HyraxInstanceServiceImpl implements HyraxInstanceService {
         if (!entity.getStatusCode().is2xxSuccessful()){
             throw new IllegalStateException("Can not find reporter on this Hyrax Instance");
         }
+    }
+
+    private Long getReporterDefaultPing(String server) throws Exception {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Long> entity = restTemplate.getForEntity(new URI(server + "/defaultPing"), Long.class);
+        return entity.getBody();
     }
 
 

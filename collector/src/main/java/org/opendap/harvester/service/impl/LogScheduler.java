@@ -36,7 +36,7 @@ public class LogScheduler {
         }
         hyraxInstance = hyraxInstanceRepository.findByIdAndActiveTrue(hyraxInstanceId);
         scheduler = Executors.newScheduledThreadPool(1);
-        Integer ping = hyraxInstance.getPing();
+        Long ping = hyraxInstance.getPing();
         scheduler.scheduleAtFixedRate(getTask(), ping, ping, TimeUnit.SECONDS);
     }
 

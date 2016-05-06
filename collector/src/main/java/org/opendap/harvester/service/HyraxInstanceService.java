@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 public interface HyraxInstanceService {
-    HyraxInstance register(String serverUrl, String reporterUrl, int ping, int log) throws Exception;
+    HyraxInstance register(String serverUrl, String reporterUrl, Long ping, int log) throws Exception;
     Stream<HyraxInstance> allHyraxInstances();
     Stream<HyraxInstance> allHyraxInstances(boolean onlyActive);
     HyraxInstanceDto buildDto(HyraxInstance hyraxInstance);

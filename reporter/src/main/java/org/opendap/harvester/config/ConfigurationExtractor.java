@@ -30,24 +30,44 @@ public class ConfigurationExtractor {
     @Value("${hyrax.logfile.path}")
     private String hyraxLogfilePathFromProperties;
 
+    @Value("${hyrax.default.ping}")
+    private Long hyraxDefaultPingFromProperties;
+
     private String hyraxLogfilePath = null;
+    private Long hyraxDefaultPing = null;
+
+    public Long getDefaultPing() {
+        if (hyraxDefaultPing != null){
+            return hyraxDefaultPing;
+        }
+        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing");
+        hyraxDefaultPing = !StringUtils.isEmpty(hyraxDefaultPingFromConfig)
+                ?  Long.valueOf(hyraxDefaultPingFromConfig)
+                : hyraxDefaultPingFromProperties;
+        return hyraxDefaultPing;
+    }
 
     public String getHyraxLogfilePath() {
         if (hyraxLogfilePath != null){
             return hyraxLogfilePath;
         }
-        XPath xPath =  XPathFactory.newInstance().newXPath();
-        String hyraxLogfilePathFromConfig = null;
-        try {
-            hyraxLogfilePathFromConfig = xPath.compile("/OLFSConfig/LogReporter/HyraxLogfilePath")
-                    .evaluate(loadXMLFromFile(getConfigPath()));
-        } catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
+        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath");
         hyraxLogfilePath = !StringUtils.isEmpty(hyraxLogfilePathFromConfig)
                 ? hyraxLogfilePathFromConfig
                 : hyraxLogfilePathFromProperties;
         return hyraxLogfilePath;
+    }
+
+    private String extractDataFromOlfsXml(String xPathRoute) {
+        XPath xPath =  XPathFactory.newInstance().newXPath();
+        String hyraxLogfilePathFromConfig = null;
+        try {
+            hyraxLogfilePathFromConfig = xPath.compile(xPathRoute)
+                    .evaluate(loadXMLFromFile(getConfigPath()));
+        } catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+        return hyraxLogfilePathFromConfig;
     }
 
     private Document loadXMLFromFile(String xmlFile) throws ParserConfigurationException, IOException, SAXException {
@@ -94,4 +114,5 @@ public class ConfigurationExtractor {
         File confDirPath = new File(path);
         return confDirPath.exists() || confDirPath.canRead();
     }
+
 }

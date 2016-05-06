@@ -5,6 +5,7 @@
 package org.opendap.harvester.controller;
 
 import org.joda.time.LocalDateTime;
+import org.opendap.harvester.config.ConfigurationExtractor;
 import org.opendap.harvester.entity.LogData;
 import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
@@ -30,6 +31,9 @@ public class ReporterController {
     @Autowired
     private LogExtractionService logExtractionService;
 
+    @Autowired
+    private ConfigurationExtractor configurationExtractor;
+
 
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     @ResponseBody
@@ -46,6 +50,12 @@ public class ReporterController {
             throw new IllegalStateException();
         }
         return logExtractionService.buildDto(logData);
+    }
+
+    @RequestMapping(path = "/defaultPing", method = RequestMethod.GET)
+    @ResponseBody
+    public long getDefaultPing() throws Exception {
+       return configurationExtractor.getDefaultPing();
     }
 
     @ExceptionHandler(IllegalStateException.class)
