@@ -26,6 +26,7 @@ http://{tomcat-address:tomcat-port}/{war-file-name}/healthcheck
 
 All API methods:
 * **GET** [/healthcheck]() - returns string with application version
+* **GET** [/defaultPing]() - returns default ping value from olfs.xml file or from properties.
 * **GET** [/reporter/log]() - returns all log lines from file.
 * **GET** [/reporter/log?since=timestamp]() - returns all log lines since date **timestamp**.
 
