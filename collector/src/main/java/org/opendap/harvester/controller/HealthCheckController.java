@@ -24,11 +24,4 @@ public class HealthCheckController {
         return "Application is working! Version = " + harvesterVersion;
     }
 
-    @RequestMapping(path = "/test", method = RequestMethod.GET)
-    public String test() {
-//        logSchedulerService.buildSchedulerAndRun("57066f2369b7930b73664e14");
-        return "";
-    }
-
-
 }
