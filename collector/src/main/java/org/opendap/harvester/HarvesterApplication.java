@@ -5,20 +5,18 @@
  */
 package org.opendap.harvester;
 
-import org.apache.catalina.connector.Connector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.util.SocketUtils;
 
 @SpringBootApplication
 @EnableScheduling
 @EnableMongoRepositories
 public class HarvesterApplication {
+	private static final Logger log = LoggerFactory.getLogger(HarvesterApplication.class);
 /*
 	 Enable this if you want to have both http and https connectors in embedded tomcat by
 	 Spring Boot
@@ -43,5 +41,6 @@ public class HarvesterApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HarvesterApplication.class, args);
+		log.info("Application has been started");
 	}
 }

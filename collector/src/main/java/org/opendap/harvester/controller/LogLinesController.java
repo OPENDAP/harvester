@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -27,6 +28,9 @@ public class LogLinesController {
     public List<LogLineDto> findAllLogLines(@Valid @ModelAttribute HyraxInstanceNameModel hyraxInstanceNameModel){
         HyraxInstance hyraxInstance = hyraxInstanceService.findHyraxInstanceByName(
                 hyraxInstanceNameModel.getHyraxInstanceName());
+        if (hyraxInstance == null){
+            return Collections.emptyList();
+        }
         return logLineService.findLogLines(hyraxInstance.getId());
     }
 
@@ -35,6 +39,9 @@ public class LogLinesController {
     public String findAllLogLinesAsString(@Valid @ModelAttribute HyraxInstanceNameModel hyraxInstanceNameModel){
         HyraxInstance hyraxInstance = hyraxInstanceService.findHyraxInstanceByName(
                 hyraxInstanceNameModel.getHyraxInstanceName());
+        if (hyraxInstance == null){
+            return "";
+        }
         return logLineService.findLogLinesAsString(hyraxInstance.getId());
     }
 

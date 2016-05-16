@@ -47,7 +47,4 @@ public class SpringMongoDataConfig extends AbstractMongoConfiguration {
         converterList.add(new StringToLocalDateTimeConverter());
         return new CustomConversions(converterList);
     }
-
-
-
 }
