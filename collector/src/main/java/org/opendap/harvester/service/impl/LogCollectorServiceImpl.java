@@ -3,6 +3,7 @@ package org.opendap.harvester.service.impl;
 import org.opendap.harvester.entity.document.HyraxInstance;
 import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogCollectorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,10 +17,12 @@ import java.time.LocalDateTime;
  */
 
 @Service
-public class LogCollectorServiceServiceImpl implements LogCollectorService {
+public class LogCollectorServiceImpl implements LogCollectorService {
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public LogDataDto collectLogs(HyraxInstance hyraxInstance, LocalDateTime since) {
-        RestTemplate restTemplate = new RestTemplate();
         try {
             return restTemplate.getForObject(
                     new URI(hyraxInstance.getReporterUrl() + "/log?since=" + since),
@@ -32,7 +35,6 @@ public class LogCollectorServiceServiceImpl implements LogCollectorService {
 
     @Override
     public LogDataDto collectAllLogs(HyraxInstance hyraxInstance) {
-        RestTemplate restTemplate = new RestTemplate();
         try {
             return restTemplate.getForObject(
                     new URI(hyraxInstance.getReporterUrl() + "/log"),

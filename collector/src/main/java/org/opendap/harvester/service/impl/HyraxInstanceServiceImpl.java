@@ -31,6 +31,9 @@ public class HyraxInstanceServiceImpl implements HyraxInstanceService {
     @Autowired
     private HyraxInstanceRepository hyraxInstanceRepository;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public HyraxInstance register(String serverUrl, String reporterUrl, Long ping, int log) throws Exception {
         String hyraxVersion = checkDomainNameAndGetVersion(serverUrl);
@@ -72,7 +75,6 @@ public class HyraxInstanceServiceImpl implements HyraxInstanceService {
     }
 
     private void checkReporter(String server) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> entity = restTemplate.getForEntity(new URI(server + "/healthcheck"), String.class);
         if (!entity.getStatusCode().is2xxSuccessful()){
             throw new IllegalStateException("Can not find reporter on this Hyrax Instance");
@@ -80,14 +82,12 @@ public class HyraxInstanceServiceImpl implements HyraxInstanceService {
     }
 
     private Long getReporterDefaultPing(String server) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Long> entity = restTemplate.getForEntity(new URI(server + "/defaultPing"), Long.class);
         return entity.getBody();
     }
 
 
     private String checkDomainNameAndGetVersion(String server) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
         String xmlString = restTemplate.getForObject(new URI(server + "/version"), String.class);
         XPath xPath =  XPathFactory.newInstance().newXPath();
         return xPath.compile("/HyraxCombinedVersion/Hyrax/@version")

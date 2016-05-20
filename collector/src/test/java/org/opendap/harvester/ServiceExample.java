@@ -2,17 +2,21 @@ package org.opendap.harvester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ReporterApplication.class)
-@WebAppConfiguration
-public class ReporterApplicationTests {
+@ContextConfiguration(classes = {HarvesterApplicationTest.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+public class ServiceExample {
 
 	@Test
 	public void contextLoads() {
 	}
 
 }
+
+
