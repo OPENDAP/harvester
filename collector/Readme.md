@@ -8,9 +8,9 @@ gradle.
 
 1. Java 8 - install this using yum; you may have to use the
    'alternatives' tool to set the correct version of Java. E.G.:
-   a. sudo yum install java-1.8.0
-   b. sudo alternatives --config java --> then choose java 1.8.0
-   c. java -version --> to verify
+..1. sudo yum install java-1.8.0
+..2. sudo alternatives --config java --> then choose java 1.8.0
+..3. java -version --> to verify
 2. Gradle - get this from http://gradle.org/gradle-download/.
    download the code and install unpack/install in a plce like
    /usr/local. Then set GRADLE_HOME in bashrc (or equiv) to
@@ -48,7 +48,7 @@ $ press any key if you want to store logs in nohup.out
 
 Application will be started at `server.port.`
 
-###API
+### API
 
 
 All API methods:
