@@ -38,6 +38,7 @@ public class ReporterController {
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     @ResponseBody
     public LogDataDto getLogsSince(@RequestParam(required = false) String since) throws Exception {
+    	        
         // Calling service method and returning result
         LogData logData;
         if (!StringUtils.isEmpty(since)){
@@ -47,7 +48,7 @@ public class ReporterController {
             logData = logExtractionService.extractAllLogData();
         }
         if (logData == null){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Log data is null");
         }
         return logExtractionService.buildDto(logData);
     }

@@ -62,8 +62,14 @@ public class ConfigurationExtractor {
         XPath xPath =  XPathFactory.newInstance().newXPath();
         String hyraxLogfilePathFromConfig = null;
         try {
-            hyraxLogfilePathFromConfig = xPath.compile(xPathRoute)
-                    .evaluate(loadXMLFromFile(getConfigPath()));
+        	String configPath = getConfigPath();
+        	if (configPath != null) {
+        		hyraxLogfilePathFromConfig = xPath.compile(xPathRoute).evaluate(loadXMLFromFile(configPath));
+        	}
+        	else {
+        		hyraxLogfilePathFromConfig = "";
+        	}
+        		
         } catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }

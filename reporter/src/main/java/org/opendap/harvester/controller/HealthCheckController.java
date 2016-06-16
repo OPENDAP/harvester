@@ -19,7 +19,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/healthcheck", method = RequestMethod.GET)
     public String healthCheck(){
-        return "Application is working! Version = " + reporterVersion;
+        return "Reporter Application, Version = " + reporterVersion;
     }
 
     @RequestMapping(path = "/test", method = RequestMethod.GET)
@@ -27,9 +27,9 @@ public class HealthCheckController {
         try {
             return configurationExtractor.getHyraxLogfilePath();
         } catch (Exception e) {
-            e.printStackTrace();
+        	e.printStackTrace();
         }
-        return "error";
+        return "Error: Could not get the Hyrax log file path";
     }
 
 }
