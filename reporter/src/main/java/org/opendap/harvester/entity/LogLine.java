@@ -10,8 +10,8 @@ import org.joda.time.LocalDateTime;
 public class LogLine {
     /**
      * <pattern>
-     *      [%X{host}] [%X{ident}] [%X{userid}] [%d{yyyy-MM-dd'T'HH:mm:ss.SSS Z}]
-     *      [%8X{duration}] [%X{http_status}] [%8X{ID}] [%X{SOURCE}] [%X{resourceID}]
+     *      [%X{host}] [%X{ident}] [%d{yyyy-MM-dd'T'HH:mm:ss.SSS Z}]
+     *      [%8X{duration}] [%X{http_status}] [%8X{ID}] [%X{VERB}] [%X{resourceID}]
      *      [%X{query}] %n
      * </pattern>
      */
@@ -19,8 +19,10 @@ public class LogLine {
     private String host;
     @Getter @Setter
     private String sessionId;
+    /*
     @Getter @Setter
     private String userId;
+    */
     @Getter @Setter
     private LocalDateTime localDateTime;
     @Getter @Setter
