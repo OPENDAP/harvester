@@ -20,20 +20,20 @@ public class LogLineServiceImpl implements LogLineService {
         }
 
         String[] splitLogLine = line.split("\\] \\[");
-        if (splitLogLine.length != 10) {
+        if (splitLogLine.length != 9) {
             return null;
         }
         return LogLine.builder()
                 .host(splitLogLine[0].substring(splitLogLine[0].indexOf('[')+1))
                 .sessionId(splitLogLine[1])
                 // .userId(splitLogLine[2])
-                .localDateTime(toGMT(splitLogLine[3]))
-                .duration(splitLogLine[4])
-                .httpStatus(splitLogLine[5])
-                .requestId(Long.valueOf(splitLogLine[6].replaceAll(" ", "")))
-                .httpVerb(splitLogLine[7])
-                .resourceId(splitLogLine[8])
-                .query(splitLogLine[9].substring(0,splitLogLine[9].lastIndexOf(']')))
+                .localDateTime(toGMT(splitLogLine[2]))
+                .duration(splitLogLine[3])
+                .httpStatus(splitLogLine[4])
+                .requestId(Long.valueOf(splitLogLine[5].replaceAll(" ", "")))
+                .httpVerb(splitLogLine[6])
+                .resourceId(splitLogLine[7])
+                .query(splitLogLine[8].substring(0,splitLogLine[8].lastIndexOf(']')))
                 .build();
     }
 
