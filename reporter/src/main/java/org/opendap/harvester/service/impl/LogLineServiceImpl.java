@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class LogLineServiceImpl implements LogLineService {
     @Override
     public LogLine parseLogLine(String line) {
+
         if (line == null) {
             return null;
         }
