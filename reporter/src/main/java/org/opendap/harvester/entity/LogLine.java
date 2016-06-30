@@ -7,6 +7,7 @@ import org.joda.time.LocalDateTime;
 
 
 @Builder
+@Getter @Setter
 public class LogLine {
     /**
      * <pattern>
@@ -15,25 +16,16 @@ public class LogLine {
      *      [%X{query}] %n
      * </pattern>
      */
-    @Getter @Setter
+
     private String host;
-    @Getter @Setter
     private String sessionId;
-    @Getter @Setter
     private String userId;
-    @Getter @Setter
     private LocalDateTime localDateTime;
-    @Getter @Setter
     private String duration;
-    @Getter @Setter
     private String httpStatus;
-    @Getter @Setter
     private Long requestId;
-    @Getter @Setter
     private String httpVerb;
-    @Getter @Setter
     private String resourceId;
-    @Getter @Setter
     private String query;
 
 }

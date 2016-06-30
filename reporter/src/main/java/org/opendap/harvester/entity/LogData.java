@@ -8,7 +8,8 @@ import lombok.Setter;
 import java.util.List;
 
 @Builder
+@Getter
+@Setter
 public class LogData {
-    @Getter @Setter
     private List<LogLine> lines;
 }

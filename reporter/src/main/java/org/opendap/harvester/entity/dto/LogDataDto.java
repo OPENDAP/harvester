@@ -4,7 +4,6 @@ package org.opendap.harvester.entity.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.opendap.harvester.entity.LogLine;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  */
 
 @Builder
+@Getter @Setter
 public class LogDataDto {
-    @Getter @Setter
     private List<LogLineDto> lines;
 }
