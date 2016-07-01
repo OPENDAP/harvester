@@ -1,3 +1,8 @@
+## Eclipse
+.settings
+.classpath
+.project
+
 ### Gradle template
 .gradle
 build/
