@@ -3,6 +3,9 @@
 .classpath
 .project
 
+## ignore emacs backup files
+*~
+
 ### Gradle template
 .gradle
 build/
