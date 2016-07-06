@@ -40,7 +40,7 @@ public class ConfigurationExtractor {
         if (hyraxDefaultPing != null){
             return hyraxDefaultPing;
         }
-        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing");
+        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
         hyraxDefaultPing = !StringUtils.isEmpty(hyraxDefaultPingFromConfig)
                 ?  Long.valueOf(hyraxDefaultPingFromConfig)
                 : hyraxDefaultPingFromProperties;
@@ -51,7 +51,7 @@ public class ConfigurationExtractor {
         if (hyraxLogfilePath != null){
             return hyraxLogfilePath;
         }
-        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath");
+        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath").trim();
         hyraxLogfilePath = !StringUtils.isEmpty(hyraxLogfilePathFromConfig)
                 ? hyraxLogfilePathFromConfig
                 : hyraxLogfilePathFromProperties;
