@@ -24,17 +24,17 @@ public class LogLineServiceTest {
 
     @Test
     public void testThatCanNotParseNullLogLine(){
-        assertNull(logLineService.parseLogLine(null));
+        assertNull(logLineService.parseLogLine(null, null));
     }
 
     @Test
     public void testThatCanNotParseEmptyLogLine(){
-        assertNull(logLineService.parseLogLine(null));
+        assertNull(logLineService.parseLogLine(null, null));
     }
 
     @Test
     public void testThatCanNotParseIncorrectStructuredLogLine(){
-        assertNull(logLineService.parseLogLine(INCORRECT));
+        assertNull(logLineService.parseLogLine(INCORRECT, null));
     }
 
 }

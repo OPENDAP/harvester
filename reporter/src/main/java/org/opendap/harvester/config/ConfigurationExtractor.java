@@ -1,5 +1,7 @@
 package org.opendap.harvester.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.opendap.harvester.entity.LinePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +17,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 @Component
 public class ConfigurationExtractor {
@@ -27,6 +31,9 @@ public class ConfigurationExtractor {
     @Autowired
     private ServletContext servletContext;
 
+    @Value("${logfile.pattern.path}")
+    private String logfilePatternPathFromProperties;
+
     @Value("${hyrax.logfile.path}")
     private String hyraxLogfilePathFromProperties;
 
@@ -35,12 +42,34 @@ public class ConfigurationExtractor {
 
     private String hyraxLogfilePath = null;
     private Long hyraxDefaultPing = null;
+    private String linePatternPath = null;
+
+    public LinePattern getLinePattern(){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(new File(getLinePatternPath()), LinePattern.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getLinePatternPath() {
+        if (linePatternPath != null){
+            return linePatternPath;
+        }
+        String linePatternFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePatternPath").trim();
+        linePatternPath = !StringUtils.isEmpty(linePatternFromConfig)
+                ?  linePatternFromConfig
+                : logfilePatternPathFromProperties;
+        return linePatternPath;
+    }
 
     public Long getDefaultPing() {
         if (hyraxDefaultPing != null){
             return hyraxDefaultPing;
         }
-        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing");
+        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
         hyraxDefaultPing = !StringUtils.isEmpty(hyraxDefaultPingFromConfig)
                 ?  Long.valueOf(hyraxDefaultPingFromConfig)
                 : hyraxDefaultPingFromProperties;
@@ -51,7 +80,7 @@ public class ConfigurationExtractor {
         if (hyraxLogfilePath != null){
             return hyraxLogfilePath;
         }
-        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath");
+        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath").trim();
         hyraxLogfilePath = !StringUtils.isEmpty(hyraxLogfilePathFromConfig)
                 ? hyraxLogfilePathFromConfig
                 : hyraxLogfilePathFromProperties;
