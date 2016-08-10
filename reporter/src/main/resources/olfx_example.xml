@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OLFSConfig>
+
+    <LogReporter>
+        <HyraxLogfilePath>HyraxAccess.log</HyraxLogfilePath>
+        <DefaultPing>
+            5
+        </DefaultPing> <!-- daily 60*60*24-->
+        <LogFilePatternPath>
+            logLinePattern.json
+        </LogFilePatternPath>
+        <LogFilePattern>
+            <names>host;sessionId;userId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;build</names>
+            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
+        </LogFilePattern>
+    </LogReporter>
+
+</OLFSConfig>
+
