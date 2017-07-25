@@ -73,6 +73,6 @@ a  list of all **active** and **inactive** registered hyrax instances.
 returns a list of all the log lines harvestered from a specific Hyrax
 instance
 
-* **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]()
-- returns a string representation of the list of all log lines 
+* **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]() - 
+returns a string representation of the list of all log lines
 harvestered from a specific Hyrax instance
