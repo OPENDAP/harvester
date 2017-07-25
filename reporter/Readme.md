@@ -10,7 +10,7 @@ To build war file you should have been installed on your machine:
 
 1. Clone last version of the project
 2. Configure **application.properties** file. It is situated in _src/main/resources_
-    * Set up correct path to log file **hyrax.logfile.path**
+    * Set up the correct path to the log file **hyrax.logfile.path**
     * Configure other parameters (reporter logging, Hyrax port number, etc.)
 3. Run command
 
@@ -18,10 +18,10 @@ To build war file you should have been installed on your machine:
 $ gradle war
 ```
 
-4. War file will be build in _build/libs/reporter.war_
+4. The War file will be built in _build/libs/reporter.war_
 5. Rename file as you want to call your reporter application
-6. Put this file to **webapps** folder in your Tomcat 7+
-7. It will be automatically deployed. To check application running call
+6. Put this file in the **webapps** folder in Tomcat
+7. It will be automatically deployed. To check application using 'healthcheck'
 
 ```
 http://{tomcat-address:tomcat-port}/{war-file-name}/healthcheck
@@ -30,10 +30,12 @@ http://{tomcat-address:tomcat-port}/{war-file-name}/healthcheck
 ### API
 
 All API methods:
-* **GET** [/reporter/healthcheck]() - returns string with application version
-* **GET** [/reporter/defaultPing]() - returns default ping value from olfs.xml file or from properties.
+* **GET** [/reporter/healthcheck]() - returns the application version
+* **GET** [/reporter/defaultPing]() - returns the default ping value
+    from the olfs.xml file or from the properties file (mentioned
+    earlier).
 * **GET** [/reporter/log]() - returns all log lines from file.
-* **GET** [/reporter/log?since=timestamp]() - returns all log lines since date **timestamp**.
+* **GET** [/reporter/log?since=timestamp]() - returns all log lines since **timestamp**.
 
 
 
