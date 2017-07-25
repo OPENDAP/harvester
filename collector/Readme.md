@@ -47,28 +47,32 @@ $ press any key if you want to store logs in nohup.out
 
 The application will be started at `server.port.`
 
-### API
+## API
 
 
 All API methods:
 * **GET** [/healthcheck]() - returns a string with the application version
+
 * **GET** [/harvester/registration? serverUrl=http://xxx & ping=7 &
-log=100]() - Register new HyraxInstance. Check it existence and check
-Reporter path. Setting up ping and log lines parameter. If such Hyrax
-instance had been already registered, add new record and make all
-previous records inactive. Returns created db record.
+log=100]() - Register a new HyraxInstance. Check for that the server responds,
+check the Reporter path and set up the ping and log-lines parameters. If
+the Hyrax instance had been already registered, add new record and
+make all previous records inactive. Returns created db record.
+
 * **GET** [/harvester/registration? serverUrl=http://xxx &
 reporterUrl=http://xxx & ping=7 & log=100]() - Same as previous call,
-but setting up custom **reporterUrl**. If this parameter is missed,
-reporter url is equals to server url.
-* **GET** [/harvester/allHyraxInstances]() - returns list of all
-    **active** registered hyrax instances
+but configure a custom **reporterUrl**..
+
+* **GET** [/harvester/allHyraxInstances]() - returns a list of all
+**active** registered hyrax instances
+
 * **GET** [/harvester/allHyraxInstances?onlyActive=false]() - returns
- list of all **active** and **inactive** registered hyrax instances.
- Parameter **onlyActive** is _true_ by default.
+a  list of all **active** and **inactive** registered hyrax instances.
+
 * **GET** [/harvester/logLines? hyraxInstanceName=http://xxx]() -
-returns list of all log lines which was harvestered for specific Hyrax
+returns a list of all the log lines harvestered from a specific Hyrax
 instance
+
 * **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]()
-- returns string representation of list of all log lines which was
-harvestered for specific Hyrax instance
+- returns a string representation of the list of all log lines 
+harvestered from a specific Hyrax instance
