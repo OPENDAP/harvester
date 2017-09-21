@@ -107,8 +107,8 @@ public class ConfigurationExtractor {
             String configPath = webappsFolder.getCanonicalPath() +
                     File.separator + OPENDAP_APPLICATION_NAME +
                     File.separator + WEB_INF +
-                    File.separator + "conf" +
-                    File.separator + "olfs.xml";
+                    File.separator + "conf";
+                    // File.separator + "olfs.xml";
             return pathIsGood(configPath) ? configPath : null;
         } catch (IOException e) {
             e.printStackTrace();
