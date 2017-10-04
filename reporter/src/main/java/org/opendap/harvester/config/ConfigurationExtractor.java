@@ -18,15 +18,16 @@ import javax.xml.xpath.XPathFactory;
 import java.io.*;
 
 /**
- * @todo Fix this code. Directory versus config file confusion.
+ * @brief Read configuration information needed by the reporter service.
  *
- * It confuses looking for the directory that holds the configuration file
- * with the file itself. Maybe add a fileIsGood() method to test that the
- * service can actually read from the config file? (that is never tested)
+ * Look for the "olfs.xml" file and use that as the primary source of configuration
+ * information. If that cannot be found, then use the default values baked in from
+ * the application.properties file. To look for the olfs.xml file, first check the
+ * value of the OLFS_CONFIG_DIR environment variable and, if that does not name a
+ * valid directory, fallback to checking "/etc/olfs/".
  *
- * Maybe stop catching exceptions when the config search breaks?
- *
- *
+ * @todo This class has methods that trap exceptions. Review that.
+ * @todo Add a check of the webaps/opendap/WEB_INF/conf dir to the list of places for config info
  */
 @Component
 public class ConfigurationExtractor {
@@ -48,6 +49,13 @@ public class ConfigurationExtractor {
     private String hyraxLogfilePath = null;
     private Long hyraxDefaultPing = null;
 
+    /**
+     * What is the 'ping' interval for the reporter? If the value cannot be read
+     * from a configuration file, return the value from the application.properties
+     * file.
+     *
+     * @return The ping interval, in seconds.
+     */
     public Long getDefaultPing() {
         if (hyraxDefaultPing != null) {
             return hyraxDefaultPing;
@@ -60,6 +68,13 @@ public class ConfigurationExtractor {
         return hyraxDefaultPing;
     }
 
+    /**
+     * What is the pathname to the log file this reporter will read from?
+     * If the name cannot be read from a configuration file, return the value
+     * set in the application.properties file.
+     *
+     * @return The pathname to the log file.
+     */
     public String getHyraxLogfilePath() {
         if (hyraxLogfilePath != null) {
             return hyraxLogfilePath;
