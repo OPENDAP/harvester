@@ -53,6 +53,14 @@ public class LogLineServiceImpl implements LogLineService {
                 .build();
     }
 
+    /**
+     * Return the date/time information in GMT given that it has been recorded in the
+     * local time and we know what time zone that is.
+     *
+     * @param zoneString Time zone for the log data, using the strings recognized by the
+     *                   java DateTime class.
+     * @return A new LocalDateTime instance.
+     */
     private LocalDateTime toGMT(String zoneString){
         DateTime zonedDateTime =
                 DateTime.parse(zoneString, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS Z"));
