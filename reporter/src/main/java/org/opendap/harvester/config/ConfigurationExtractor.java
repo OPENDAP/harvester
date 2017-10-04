@@ -17,10 +17,22 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 
+/**
+ * @todo Fix this code. Directory versus config file confusion.
+ *
+ * It confuses looking for the directory that holds the configuration file
+ * with the file itself. Maybe add a fileIsGood() method to test that the
+ * service can actually read from the config file? (that is never tested)
+ *
+ * Maybe stop catching exceptions when the config search breaks?
+ *
+ *
+ */
 @Component
 public class ConfigurationExtractor {
     private static final String ENV_VAR_NAME = "OLFS_CONFIG_DIR";
     private static final String DEFAULT_CONFIG_DIR = "/etc/olfs/";
+    private static final String DEFAULT_CONFIG_FILE = "olfs.xml";
     private static final String WEB_INF = "WEB-INF";
     private static final String OPENDAP_APPLICATION_NAME = "opendap";
 
@@ -37,45 +49,68 @@ public class ConfigurationExtractor {
     private Long hyraxDefaultPing = null;
 
     public Long getDefaultPing() {
-        if (hyraxDefaultPing != null){
+        if (hyraxDefaultPing != null) {
             return hyraxDefaultPing;
         }
-        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
-        hyraxDefaultPing = !StringUtils.isEmpty(hyraxDefaultPingFromConfig)
-                ?  Long.valueOf(hyraxDefaultPingFromConfig)
+
+        String defaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
+        hyraxDefaultPing = !StringUtils.isEmpty(defaultPingFromConfig)
+                ? Long.valueOf(defaultPingFromConfig)
                 : hyraxDefaultPingFromProperties;
         return hyraxDefaultPing;
     }
 
     public String getHyraxLogfilePath() {
-        if (hyraxLogfilePath != null){
+        if (hyraxLogfilePath != null) {
             return hyraxLogfilePath;
         }
-        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath").trim();
-        hyraxLogfilePath = !StringUtils.isEmpty(hyraxLogfilePathFromConfig)
-                ? hyraxLogfilePathFromConfig
+        String logfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath").trim();
+        hyraxLogfilePath = !StringUtils.isEmpty(logfilePathFromConfig)
+                ? logfilePathFromConfig
                 : hyraxLogfilePathFromProperties;
         return hyraxLogfilePath;
     }
 
+    /**
+     * @brief Read configuration information from the olfs.xml file.
+     *
+     * Read configuration information from the "olfs.xml" (aka DEFAULT_CONFIG_FILE).
+     * If the configuration file cannot be found or does not contain the information,
+     * return the empty string (not a null).
+     *
+     * @param xPathRoute The XPath to an element in the olfs.xml file.
+     * @return The value of the element or the empty string.
+     */
     private String extractDataFromOlfsXml(String xPathRoute) {
-        XPath xPath =  XPathFactory.newInstance().newXPath();
-        String hyraxLogfilePathFromConfig = null;
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        String elementValue = null;
         try {
-        	String configPath = getConfigPath();
-        	if (configPath != null) {
-        		hyraxLogfilePathFromConfig = xPath.compile(xPathRoute).evaluate(loadXMLFromFile(configPath));
-        	}
-        	else {
-        		hyraxLogfilePathFromConfig = "";
-        	}
-        		
+            String configDir = getConfigDir();
+            if (configDir != null) {
+                // FIXME Add test that the file exists and is readable. jhrg 10/4/17
+                configDir += DEFAULT_CONFIG_FILE;
+                elementValue = xPath.compile(xPathRoute).evaluate(loadXMLFromFile(configDir));
+            }
+            /* Removed because XPath...evaluate() might return null.
+            else {
+                elementValue = "";
+            } */
         } catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        return hyraxLogfilePathFromConfig;
+
+        return elementValue != null ? elementValue : "";
     }
 
+    /**
+     * Read and parse an XML file.
+     *
+     * @param xmlFile The pathname to the file
+     * @return A Document instance
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
     private Document loadXMLFromFile(String xmlFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -83,7 +118,18 @@ public class ConfigurationExtractor {
         return builder.parse(is);
     }
 
-    private String getConfigPath() {
+    /**
+     * @brief Look for the directory that holds the reporter's configuration information.
+     *
+     * First look in the directory named in the OLFS_CONFIG_DIR environment
+     * variable, otherwise look in "/etc/olfs/", otherwise look in the 'opendap'
+     * web service's "WEB_INF/conf/" directory. Return null as a fallback.
+     *
+     * @return The pathname or null if no suitable directory can be found.
+     * @note Uses pathIsGood() to determine if the given directory is a config
+     * directory for the reporter.
+     */
+    private String getConfigDir() {
         String configDirName = System.getenv(ENV_VAR_NAME);
         if (configDirName == null) {
             configDirName = DEFAULT_CONFIG_DIR;
@@ -99,8 +145,10 @@ public class ConfigurationExtractor {
             }
         }
 
+        // Trick: the reporter web service directory is probably in the same place
+        // as the 'opendap' directory. Get 'reporter/WEB_INF", go up two levels and
+        // then descend into "opendap/WEB_INF/conf"
         configDirName = servletContext.getRealPath(WEB_INF);
-
         File cf = new File(configDirName);
         try {
             File webappsFolder = cf.getParentFile().getParentFile();
@@ -108,14 +156,20 @@ public class ConfigurationExtractor {
                     File.separator + OPENDAP_APPLICATION_NAME +
                     File.separator + WEB_INF +
                     File.separator + "conf";
-                    // File.separator + "olfs.xml";
             return pathIsGood(configPath) ? configPath : null;
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
+    /**
+     * Is the given pathname a directory from which this process can read?
+     *
+     * @param path The pathname
+     * @return True is the directory exists and is readable, False otherwise.
+     */
     private boolean pathIsGood(String path) {
         File confDirPath = new File(path);
         return confDirPath.exists() || confDirPath.canRead();
