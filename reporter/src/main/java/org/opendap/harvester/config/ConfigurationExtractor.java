@@ -65,28 +65,13 @@ public class ConfigurationExtractor {
     private String linePatternPath = null;
     private LinePattern linePattern = null;
 
-    public LinePattern getLinePattern(){
-        if (linePattern != null){
-            return linePattern;
-        }
-        try {
-            if (isEmpty(getLinePatternPath())){
-                linePattern = getLinePatternDirectly();
-            } else {
-                linePattern = new ObjectMapper().readValue(new File(getLinePatternPath()), LinePattern.class);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return linePattern;
-    }
-
     private LinePattern getLinePatternDirectly() {
         LinePattern linePattern = extractLinePatternFormOlfsXml();
         return !isEmpty(linePattern.getNames()) && !isEmpty(linePattern.getRegexp()) ?
                 linePattern :
                 extractLinePatternFormProperties();
     }
+
     private LinePattern extractLinePatternFormOlfsXml(){
         return LinePattern.builder()
                 .names(extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePattern/names").trim())
@@ -112,6 +97,22 @@ public class ConfigurationExtractor {
         return linePatternPath;
     }
 
+    public LinePattern getLinePattern() {
+        if (linePattern != null) {
+            return linePattern;
+        }
+        try {
+            if (isEmpty(getLinePatternPath())) {
+                linePattern = getLinePatternDirectly();
+            } else {
+                linePattern = new ObjectMapper().readValue(new File(getLinePatternPath()), LinePattern.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return linePattern;
+    }
+    
     /**
      * What is the 'ping' interval for the reporter? If the value cannot be read
      * from a configuration file, return the value from the application.properties
