@@ -40,6 +40,10 @@ $ gradle war
 http://{tomcat-address:tomcat-port}/{war-file-name}/healthcheck
 ```
 
+## Configuration
+TODO 
+olfs.xml, how it's found.
+
 ## API
 The reporter supports the following Web API methods:
 * **GET** [/reporter/healthcheck]() - returns string with application version
