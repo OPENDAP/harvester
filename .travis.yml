@@ -1,0 +1,59 @@
+
+# Initial Travic-CI control file. 6.11.15 jhrg
+
+# Use the docker container-based build systems
+sudo: false
+dist: trusty
+language: java
+
+# I don't think travis-ci has openjdk8 yet (6.11.15 jhrg)
+jdk:
+  - openjdk8
+  - openjdk7
+  
+# whitelist
+branches:
+  only:
+    - master
+    - coverity_scan
+
+notifications:
+  email:
+    - ndp@opendap.org
+    - jgallagher@opendap.org
+    
+# Use this to prepare the system to install prerequisites or dependencies
+#
+# before_install:
+
+# Use this to install any prerequisites or dependencies necessary to run your build
+#
+# install:
+
+# Use this to prepare your build for testing
+# e.g. copy database configurations, environment variables, etc.
+#
+# before_script:
+
+# All commands must exit with code 0 on success. Anything else is considered failure.
+# For this code, the tests are failing.
+script:
+  - (cd reporter && gradle war)
+  # - (cd collector && gradle build && gradle clean)
+  
+# after_script:
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   # - secure: "IrgvTLC1I3GKe1bFiNNXBYqwqy72+26IchD7MvHg762OhAu/Ftit9Sw5aYd5ccqDY6CgfUzQ9gJemoABodMZ4iKeYti7snlRsxo+Kv2H5kJFLRwHYPfSu2wFLcy7Spi0w8Gt2OL/DN39nUAlYvnechu9XgNalMHN4M411ZfubG8="
+
+addons:
+  coverity_scan:
+    project:
+      name: "OPENDAP/harvester"
+      description: "Build submitted via Travis CI"
+    notification_email: jgallagher@opendap.org
+    build_command: "(cd collector && gradle build) && (cd reporter && gradle build)"
+    branch_pattern: coverity_scan
