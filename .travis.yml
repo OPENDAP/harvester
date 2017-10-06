@@ -38,7 +38,7 @@ notifications:
 # All commands must exit with code 0 on success. Anything else is considered failure.
 # For this code, the tests are failing.
 script:
-  - (cd reporter && gradle --version && gradle --info clean)
+  - (cd reporter && gradle --version && gradle --info clean && gradle --info war)
   # - (cd collector && gradle build && gradle clean)
   
 # after_script:
