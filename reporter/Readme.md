@@ -1,3 +1,4 @@
+
 # Reporter application
 The _reporter_ is a web application that runs in a servlet engine and responds to requests
 for information from a log file. Nominally, the log file is written by a web server
@@ -20,7 +21,7 @@ To build the reporter war file you need:
    installing Java and gradle.
 2. Gradle
 
-## Installation
+## C builing and Installing the service
 1. Clone this project
 2. Configure **application.properties** file in _src/main/resources_
     * Set up the correct path to the Hyrax log file **hyrax.logfile.path**
@@ -41,8 +42,47 @@ http://{tomcat-address:tomcat-port}/{war-file-name}/healthcheck
 ```
 
 ## Configuration
-TODO 
-olfs.xml, how it's found. Explain the configuration files and options in more detail
+The _reporter_ can be customized by changing several different parameters. By default, the
+values of the parameters are compiled into the service. The default values can be changed 
+by editing the reporter/resources/application.properties. These parameters are:
+1. server.port=8080
+1. reporter.version = 0.91
+1. logging.file=reporter.log
+1. logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter=DEBUG
+and:
+1. hyrax.logfile.path = /etc/olfs/logs/AnonymousAccess.log
+1. hyrax.default.ping = 3600
+
+The last two parameters can also be set using the _olfs.xml_ configuration file. To do so,
+include the following XML elements in that file:
+
+```xml
+<LogReporter>
+    <HyraxLogfilePath>
+        /etc/olfs/logs/AnonymousAccess.log
+    <HyraxLogfilePath>
+    <DefaultPing>
+        3600
+    </DefaultPing>
+</LogReporter>
+```
+
+The reporter will look for the OLFS.xml file in the directory named by the environment
+variable _OLFS_CONFIG_DIR_. If that variable is not set, it will look in the default 
+location, _/etc/olfs/_. If neither of those locations holds the configuration file, the
+compiled parameter values are used.
+
+This service reads a special log file written by the OLFS called the _Anonymous Log_. That 
+log file is not written by default. To configure the OLFS to write to the Anonymous Log, add
+the following to the OLFS's logback.xml file (found in _webapps/opendap/WEB-INF_).
+
+```xml
+<!-- Access/Performance Logging -->
+<logger name="HyraxAccess" level="all">
+    <appender-ref ref="HyraxAccessLog"/>
+    <appender-ref ref="AnonymousAccessLog"/>
+</logger>
+```
 
 ## API
 The reporter supports the following Web API methods:
