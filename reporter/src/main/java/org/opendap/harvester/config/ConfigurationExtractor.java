@@ -112,7 +112,7 @@ public class ConfigurationExtractor {
         }
         return linePattern;
     }
-    
+
     /**
      * What is the 'ping' interval for the reporter? If the value cannot be read
      * from a configuration file, return the value from the application.properties
