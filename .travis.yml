@@ -8,7 +8,7 @@ language: java
 
 # I don't think travis-ci has openjdk8 yet (6.11.15 jhrg)
 jdk:
-  - openjdk8
+  # - openjdk8
   - openjdk7
   
 # whitelist
@@ -38,7 +38,7 @@ notifications:
 # All commands must exit with code 0 on success. Anything else is considered failure.
 # For this code, the tests are failing.
 script:
-  - (cd reporter && gradle war)
+  - (cd reporter && gradle --version && gradle --info clean && gradle --info war)
   # - (cd collector && gradle build && gradle clean)
   
 # after_script:

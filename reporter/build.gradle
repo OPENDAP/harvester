@@ -12,7 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot'
+// apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 war {
@@ -30,7 +30,7 @@ repositories {
 	mavenCentral()
 }
 
-configurations.all{
+configurations.all {
 	exclude group: "commons-logging", module: "commons-logging"
 }
 
