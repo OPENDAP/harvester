@@ -5,7 +5,6 @@ import org.opendap.harvester.dao.LogLineRepository;
 import org.opendap.harvester.entity.document.HyraxInstance;
 import org.opendap.harvester.entity.document.LogLine;
 import org.opendap.harvester.entity.dto.LogLineDto;
-import org.opendap.harvester.service.HyraxInstanceService;
 import org.opendap.harvester.service.LogLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,16 +27,7 @@ public class LogLineServiceImpl implements LogLineService {
             List<LogLine> logLines = logLineDtoList.stream()
                     .map(dto -> LogLine.builder()
                             .hyraxInstanceId(hyraxInstanceId)
-                            .host(dto.getHost())
-                            .sessionId(dto.getSessionId())
-                            .userId(dto.getUserId())
-                            .localDateTime(dto.getLocalDateTime())
-                            .duration(dto.getDuration())
-                            .httpStatus(dto.getHttpStatus())
-                            .requestId(dto.getRequestId())
-                            .httpVerb(dto.getHttpVerb())
-                            .resourceId(dto.getResourceId())
-                            .query(dto.getQuery())
+                            .values(dto.getValues())
                             .build())
                     .collect(Collectors.toList());
             logLineRepository.save(logLines);
@@ -62,16 +52,7 @@ public class LogLineServiceImpl implements LogLineService {
     @Override
     public LogLineDto buildDto(LogLine logLine) {
         return LogLineDto.builder()
-                .host(logLine.getHost())
-                .sessionId(logLine.getSessionId())
-                .userId(logLine.getUserId())
-                .localDateTime(logLine.getLocalDateTime())
-                .duration(logLine.getDuration())
-                .httpStatus(logLine.getHttpStatus())
-                .requestId(logLine.getRequestId())
-                .httpVerb(logLine.getHttpVerb())
-                .resourceId(logLine.getResourceId())
-                .query(logLine.getQuery())
+                .values(logLine.getValues())
                 .build();
     }
 }

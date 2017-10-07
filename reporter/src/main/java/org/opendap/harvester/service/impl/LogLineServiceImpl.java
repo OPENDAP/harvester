@@ -4,53 +4,49 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.opendap.harvester.entity.LinePatternConfig;
 import org.opendap.harvester.entity.LogLine;
 import org.opendap.harvester.entity.dto.LogLineDto;
 import org.opendap.harvester.service.LogLineService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
 
 
 @Service
 public class LogLineServiceImpl implements LogLineService {
+    private static final String TIME_FIELD = "localDateTime";
+
     @Override
-    public LogLine parseLogLine(String line) {
-        if (line == null) {
+    public LocalDateTime getLocalDateTime(LogLine logLine) {
+        Map<String, String> logLineValues = logLine.getValues();
+        return toGMT(logLineValues.get(TIME_FIELD));
+    }
+
+    @Override
+    public LogLine parseLogLine(String line, LinePatternConfig config) {
+        if (line == null || config == null) {
             return null;
         }
 
-        String[] splitLogLine = line.split("\\] \\[");
-        if (splitLogLine.length != 9) {
-            return null;
+        String[] names = config.getNames();
+        Map<String, String> logLine = new HashMap<>();
+
+        Matcher matcher = config.getPattern().matcher(line.trim());
+        if (matcher.matches()) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                logLine.put(names[i-1], matcher.group(i));
+            }
         }
-        return LogLine.builder()
-                .host(splitLogLine[0].substring(splitLogLine[0].indexOf('[')+1))
-                .sessionId(splitLogLine[1])
-                // .userId(splitLogLine[2])
-                .localDateTime(toGMT(splitLogLine[2]))
-                .duration(splitLogLine[3])
-                .httpStatus(splitLogLine[4])
-                .requestId(Long.valueOf(splitLogLine[5].replaceAll(" ", "")))
-                .httpVerb(splitLogLine[6])
-                .resourceId(splitLogLine[7])
-                .query(splitLogLine[8].substring(0,splitLogLine[8].lastIndexOf(']')))
-                .build();
+
+        return LogLine.builder().values(logLine).build();
     }
 
     @Override
     public LogLineDto buildDto(LogLine logLine) {
-        return LogLineDto.builder()
-                .host(logLine.getHost())
-                .sessionId(logLine.getSessionId())
-                // .userId(logLine.getUserId())
-                .localDateTime(logLine.getLocalDateTime().toString())
-                .duration(logLine.getDuration())
-                .httpStatus(logLine.getHttpStatus())
-                .requestId(logLine.getRequestId())
-                .httpVerb(logLine.getHttpVerb())
-                .resourceId(logLine.getResourceId())
-                .query(logLine.getQuery())
-                .build();
+        return LogLineDto.builder().values(logLine.getValues()).build();
     }
 
     /**

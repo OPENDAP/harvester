@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OLFSConfig>
+
+    <LogReporter>
+        <HyraxLogfilePath>Anonymous.log</HyraxLogfilePath>
+        
+        <DefaultPing>
+            86400 <!-- daily 60*60*24-->
+        </DefaultPing> 
+        
+        <!--  LogFilePatternPath>
+            logLinePattern.json
+        </LogFilePatternPath -->
+        
+        <LogFilePattern>
+            <names>host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query</names>
+            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
+        </LogFilePattern>
+    </LogReporter>
+
+</OLFSConfig>
+

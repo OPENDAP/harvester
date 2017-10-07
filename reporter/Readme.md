@@ -17,11 +17,11 @@ The log line should match the following pattern (newline added for clarity):
 ## Prerequirements
 To build the reporter war file you need:
 
-1. Java 7 - see the Readme for the collector for inforamtion about 
+1. Java 7 - see the Readme for the collector for information about 
    installing Java and gradle.
 2. Gradle
 
-## C builing and Installing the service
+## Builing and Installing the service
 1. Clone this project
 2. Configure **application.properties** file in _src/main/resources_
     * Set up the correct path to the Hyrax log file **hyrax.logfile.path**
@@ -52,6 +52,21 @@ by editing the reporter/resources/application.properties. These parameters are:
 and:
 1. hyrax.logfile.path = /etc/olfs/logs/AnonymousAccess.log
 1. hyrax.default.ping = 3600
+
+The reporter needs to know where to read the logged data. Because of
+various privacy issues, this system reads data from a log file that
+has been 'sanitized' by the server itself. That is, while the server
+writes a normal log file that includes IP addresses and UIDs, it also 
+writes a log file for this system that excludes that information. We
+call this an 'anonymous' log.
+
+Because the format of the of the anonymous log might change over time,
+the pattern used to parse each line can be configured. See the file
+`logLinePattern.json` for this configuration. Note that this is not
+something we expect users/installers to need to configure. It is a 
+configuration option because the ideas of what we can gather in terms
+of usage information may change over time and we would like to be
+able to respond to those changes.
 
 The last two parameters can also be set using the _olfs.xml_ configuration file. To do so,
 include the following XML elements in that file:

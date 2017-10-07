@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
  * Data transfer object for returning results form BE to FE.
  * 
@@ -15,30 +17,17 @@ import lombok.Setter;
  */
 
 @Builder
+@Getter @Setter
 public class LogLineDto {
-    @Getter @Setter
-    private String host;
-    @Getter @Setter
-    private String sessionId;
-    /*
-    @Getter @Setter
-    private String userId;
-    */
-    @Getter @Setter
-    private String localDateTime;
-    @Getter @Setter
-    private String duration;
-    @Getter @Setter
-    private String httpStatus;
-    @Getter @Setter
-    private Long requestId;
-    @Getter @Setter
-    private String httpVerb;
-    /// The resourceID is the same as the DAP dataset - typically a file
-    @Getter @Setter
-    private String resourceId;
-    /// The query is the DAP constraint expression
-    @Getter @Setter
-    private String query;
-
+//    private String host;
+//    private String sessionId;
+//    private String userId;
+//    private String localDateTime;
+//    private String duration;
+//    private String httpStatus;
+//    private Long requestId;
+//    private String httpVerb;
+//    private String resourceId;
+//    private String query;
+    private Map<String, String> values;
 }

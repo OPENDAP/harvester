@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reporter: Error page</title>
+</head>
+<body>
+Reporter: some problems occurred
+<p th:text="${status} + ' ' + ${error} + ' ' + ${message}"></p>
+<div>
+    <p>Stacktrace :</p>
+    <p th:each="line : ${trace}" th:text="${line}"></p>
+</div>
+</body>
+</html>

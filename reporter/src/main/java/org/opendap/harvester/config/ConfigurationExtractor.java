@@ -1,9 +1,10 @@
 package org.opendap.harvester.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.opendap.harvester.entity.LinePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -15,7 +16,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @brief Read configuration information needed by the reporter service.
@@ -40,14 +45,94 @@ public class ConfigurationExtractor {
     @Autowired
     private ServletContext servletContext;
 
-    @Value("${hyrax.logfile.path}")
+    @Value("${logfile.pattern.path:}")
+    private String logfilePatternPathFromProperties;
+
+    @Value("${logfile.pattern.names:}")
+    private String logfilePatternNamesFromProperties;
+
+    @Value("${logfile.pattern.regexp:}")
+    private String logfilePatternRegexpFromProperties;
+
+    @Value("${hyrax.logfile.path:}")
     private String hyraxLogfilePathFromProperties;
 
-    @Value("${hyrax.default.ping}")
+    @Value("${hyrax.default.ping:3600}")
     private Long hyraxDefaultPingFromProperties;
 
     private String hyraxLogfilePath = null;
     private Long hyraxDefaultPing = null;
+    private String linePatternPath = null;
+    private LinePattern linePattern = null;
+
+    private LinePattern getLinePatternDirectly() {
+        LinePattern linePattern = extractLinePatternFormOlfsXml();
+        return !isEmpty(linePattern.getNames()) && !isEmpty(linePattern.getRegexp()) ?
+                linePattern :
+                extractLinePatternFormProperties();
+    }
+
+    private LinePattern extractLinePatternFormOlfsXml(){
+        return LinePattern.builder()
+                .names(extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePattern/names").trim())
+                .regexp(extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePattern/regexp").trim())
+                .build();
+    }
+
+    private LinePattern extractLinePatternFormProperties(){
+        return LinePattern.builder()
+                .names(logfilePatternNamesFromProperties)
+                .regexp(logfilePatternRegexpFromProperties)
+                .build();
+    }
+
+    /**
+     * Get the pathname to the JSON file that contains the log file field regex and
+     * names. Look in the configuration file (olfs.xml) and default to the 
+     * application.properties.
+     * 
+     * @return Return the name of the JSON file or an empty string.
+     */
+    private String getLinePatternPath() {
+        if (linePatternPath != null){
+            return linePatternPath;
+        }
+        String linePatternPathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePatternPath").trim();
+        linePatternPath = !isEmpty(linePatternPathFromConfig)
+                ?  linePatternPathFromConfig
+                : logfilePatternPathFromProperties;
+        return linePatternPath;
+    }
+
+    /**
+     * If a path to the log file fields (filed regex and names) file (a json file) is
+     * given, use that. If that is not set, look for regex and field names themselves
+     * in the configuration or application.properties file.
+     * 
+     * @note I think the JSON file should be dropped - the regex and names should be 
+     * read from the config file (olfs.xml) or the application.properties.
+     * 
+     * @todo Handle the error when the path is set, but the file is missing
+     * @todo Handle the error when the pattern information cannot be found.
+     * @todo getLinePatternDirectly() is never called if the value for the JSON file is set in the properties.
+     *  
+     * @return A LinePattern object or null if the information cannot be found.
+     */
+    public LinePattern getLinePattern() {
+        if (linePattern != null) {
+            return linePattern;
+        }
+        try {
+            if (isEmpty(getLinePatternPath())) {
+                linePattern = getLinePatternDirectly();
+            } else {
+                linePattern = new ObjectMapper().readValue(new File(getLinePatternPath()), LinePattern.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return linePattern;
+    }
 
     /**
      * What is the 'ping' interval for the reporter? If the value cannot be read
@@ -60,10 +145,10 @@ public class ConfigurationExtractor {
         if (hyraxDefaultPing != null) {
             return hyraxDefaultPing;
         }
-
-        String defaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
-        hyraxDefaultPing = !StringUtils.isEmpty(defaultPingFromConfig)
-                ? Long.valueOf(defaultPingFromConfig)
+        
+        String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
+        hyraxDefaultPing = !isEmpty(hyraxDefaultPingFromConfig)
+                ?  Long.valueOf(hyraxDefaultPingFromConfig)
                 : hyraxDefaultPingFromProperties;
         return hyraxDefaultPing;
     }
@@ -79,17 +164,21 @@ public class ConfigurationExtractor {
         if (hyraxLogfilePath != null) {
             return hyraxLogfilePath;
         }
-        String logfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath").trim();
-        hyraxLogfilePath = !StringUtils.isEmpty(logfilePathFromConfig)
-                ? logfilePathFromConfig
+
+        String hyraxLogfilePathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/HyraxLogfilePath").trim();
+        hyraxLogfilePath = !isEmpty(hyraxLogfilePathFromConfig)
+                ? hyraxLogfilePathFromConfig
                 : hyraxLogfilePathFromProperties;
+        if (isEmpty(hyraxLogfilePath)){
+            throw new IllegalStateException("Can not find HyraxLogfilePath property");
+        }
         return hyraxLogfilePath;
     }
 
     /**
-     * @brief Read configuration information from the olfs.xml file.
+     * Read configuration information from the olfs.xml file.
      *
-     * Read configuration information from the "olfs.xml" (aka DEFAULT_CONFIG_FILE).
+     * Read configuration information from the "olfs.xml" (or the DEFAULT_CONFIG_FILE).
      * If the configuration file cannot be found or does not contain the information,
      * return the empty string (not a null).
      *
@@ -134,7 +223,7 @@ public class ConfigurationExtractor {
     }
 
     /**
-     * @brief Look for the directory that holds the reporter's configuration information.
+     * Look for the directory that holds the reporter's configuration information.
      *
      * First look in the directory named in the OLFS_CONFIG_DIR environment
      * variable, otherwise look in "/etc/olfs/", otherwise look in the 'opendap'
