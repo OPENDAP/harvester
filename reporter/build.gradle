@@ -12,7 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-// apply plugin: 'spring-boot'
+apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 war {
@@ -44,6 +44,7 @@ dependencies {
 	compile group: 'ch.qos.logback', name: 'logback-access', version: '1.1.7'
 //	compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
 //	compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.5'
+
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
