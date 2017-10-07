@@ -22,12 +22,18 @@ public class HealthCheckController {
         return "Reporter Application, Version = " + reporterVersion;
     }
 
+    /**
+     * @todo Make this a more complete response. It could return the default and 
+     * configured parameter values.
+     * 
+     * @return A string returned to the browser/client.
+     */
     @RequestMapping(path = "/test", method = RequestMethod.GET)
     public String test(){
         try {
             return configurationExtractor.getHyraxLogfilePath();
         } catch (Exception e) {
-        	e.printStackTrace();
+        	    e.printStackTrace();
         }
         return "Error: Could not get the Hyrax log file path";
     }

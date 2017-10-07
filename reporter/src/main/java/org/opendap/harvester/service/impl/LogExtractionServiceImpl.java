@@ -50,6 +50,15 @@ public class LogExtractionServiceImpl implements LogExtractionService {
         return getLogLines(null);
     }
 
+    /**
+     * @todo This method will fail if the pattern doesn't match. In that case is returns
+     * a record/line that is 'values:""' repeated N time  where N is the number of fields
+     * in the pattern regex. There's no error message.
+     * 
+     * @param since
+     * @return
+     * @throws IOException
+     */
     private List<LogLine> getLogLines(LocalDateTime since) throws IOException {
         LinePattern linePattern = configurationExtractor.getLinePattern();
         LinePatternConfig config = LinePatternConfig.builder()

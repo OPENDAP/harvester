@@ -86,17 +86,38 @@ public class ConfigurationExtractor {
                 .build();
     }
 
+    /**
+     * Get the pathname to the JSON file that contains the log file field regex and
+     * names. Look in the configuration file (olfs.xml) and default to the 
+     * application.properties.
+     * 
+     * @return Return the name of the JSON file or an empty string.
+     */
     private String getLinePatternPath() {
         if (linePatternPath != null){
             return linePatternPath;
         }
-        String linePatternFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePatternPath").trim();
-        linePatternPath = !isEmpty(linePatternFromConfig)
-                ?  linePatternFromConfig
+        String linePatternPathFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogFilePatternPath").trim();
+        linePatternPath = !isEmpty(linePatternPathFromConfig)
+                ?  linePatternPathFromConfig
                 : logfilePatternPathFromProperties;
         return linePatternPath;
     }
 
+    /**
+     * If a path to the log file fields (filed regex and names) file (a json file) is
+     * given, use that. If that is not set, look for regex and field names themselves
+     * in the configuration or application.properties file.
+     * 
+     * @note I think the JSON file should be dropped - the regex and names should be 
+     * read from the config file (olfs.xml) or the application.properties.
+     * 
+     * @todo Handle the error when the path is set, but the file is missing
+     * @todo Handle the error when the pattern information cannot be found.
+     * @todo getLinePatternDirectly() is never called if the value for the JSON file is set in the properties.
+     *  
+     * @return A LinePattern object or null if the information cannot be found.
+     */
     public LinePattern getLinePattern() {
         if (linePattern != null) {
             return linePattern;
@@ -124,7 +145,7 @@ public class ConfigurationExtractor {
         if (hyraxDefaultPing != null) {
             return hyraxDefaultPing;
         }
-
+        
         String hyraxDefaultPingFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/DefaultPing").trim();
         hyraxDefaultPing = !isEmpty(hyraxDefaultPingFromConfig)
                 ?  Long.valueOf(hyraxDefaultPingFromConfig)
@@ -155,9 +176,9 @@ public class ConfigurationExtractor {
     }
 
     /**
-     * @brief Read configuration information from the olfs.xml file.
+     * Read configuration information from the olfs.xml file.
      *
-     * Read configuration information from the "olfs.xml" (aka DEFAULT_CONFIG_FILE).
+     * Read configuration information from the "olfs.xml" (or the DEFAULT_CONFIG_FILE).
      * If the configuration file cannot be found or does not contain the information,
      * return the empty string (not a null).
      *
@@ -202,7 +223,7 @@ public class ConfigurationExtractor {
     }
 
     /**
-     * @brief Look for the directory that holds the reporter's configuration information.
+     * Look for the directory that holds the reporter's configuration information.
      *
      * First look in the directory named in the OLFS_CONFIG_DIR environment
      * variable, otherwise look in "/etc/olfs/", otherwise look in the 'opendap'

@@ -1,5 +1,5 @@
 {
   "_comment": "localDateTime - should be in names, to have an ability to get time of logging",
-  "names":"host;sessionId;userId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;build",
-  "regexp":"\\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\]"
+  "names":"host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query",
+  "regexp":"\\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\]"
 }
