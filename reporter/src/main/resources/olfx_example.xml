@@ -3,16 +3,19 @@
 <OLFSConfig>
 
     <LogReporter>
-        <HyraxLogfilePath>HyraxAccess.log</HyraxLogfilePath>
+        <HyraxLogfilePath>Anonymous.log</HyraxLogfilePath>
+        
         <DefaultPing>
-            5
-        </DefaultPing> <!-- daily 60*60*24-->
-        <LogFilePatternPath>
+            86400 <!-- daily 60*60*24-->
+        </DefaultPing> 
+        
+        <!--  LogFilePatternPath>
             logLinePattern.json
-        </LogFilePatternPath>
+        </LogFilePatternPath -->
+        
         <LogFilePattern>
-            <names>host;sessionId;userId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;build</names>
-            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
+            <names>host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query</names>
+            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
         </LogFilePattern>
     </LogReporter>
 
