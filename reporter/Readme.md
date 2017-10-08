@@ -26,10 +26,16 @@ To build the reporter war file you need:
 2. Configure **application.properties** file in _src/main/resources_
     * Set up the correct path to the Hyrax log file **hyrax.logfile.path**
     * Configure other parameters (reporter logging, Hyrax port number, et c.)
-3. Run:
+3. Build the Web ARchive file using ```gradle wrapper```:
 
 ```sh
-$ gradle war
+$ gradlew war
+```
+
+or, if you have gradle 4.2.1 or greater installed, 
+
+```sh
+$gradle war
 ```
 
 4. The War file will be built in _build/libs/reporter.war_
