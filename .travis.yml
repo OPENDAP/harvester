@@ -39,7 +39,7 @@ notifications:
 # For this code, the tests are failing.
 script:
   - (cd reporter && gradle --version && gradle war)
-  # - (cd collector && gradle build && gradle clean)
+  - (cd collector && gradle jar)
   
 # after_script:
 
