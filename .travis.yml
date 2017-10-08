@@ -6,10 +6,9 @@ sudo: false
 dist: trusty
 language: java
 
-# I don't think travis-ci has openjdk8 yet (6.11.15 jhrg)
+# Must build with Java 8
 jdk:
   - openjdk8
-  - openjdk7
   
 # whitelist
 branches:
@@ -55,5 +54,5 @@ addons:
       name: "OPENDAP/harvester"
       description: "Build submitted via Travis CI"
     notification_email: jgallagher@opendap.org
-    build_command: "(cd collector && gradle build) && (cd reporter && gradle build)"
+    build_command: "(cd reporter && gradle war) && (cd collector && gradle jar) "
     branch_pattern: coverity_scan
