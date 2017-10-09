@@ -1,8 +1,9 @@
 # Registration and Collector service
+
 ## Installation
 
-Speicific instructions are for CentOS 6 but are likely valid for
-any Linux dist. Later versions of Linux may have a RPM for 
+Specific instructions are for CentOS 6 but are likely valid for
+any Linux distribution. Later versions of Linux may have a RPM for 
 gradle.
 
 1. Java 8 - install this using yum; you may have to use the
@@ -76,3 +77,4 @@ instance
 * **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]() - 
 returns a string representation of the list of all log lines
 harvestered from a specific Hyrax instance
+

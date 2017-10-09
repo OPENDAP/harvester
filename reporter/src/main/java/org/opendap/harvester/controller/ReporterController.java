@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * This annotations tell us about what type of Spring bean it is.
- * It is Controller. It means that it can receives REST requests.
+ * This annotation tells us about what type of Spring bean it is.
+ * It is Controller. It means that it can receive REST requests.
  */
 @Controller
 @RequestMapping("/")
