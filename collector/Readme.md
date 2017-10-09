@@ -1,7 +1,7 @@
 # Registration and Collector service
 
 ## Installation
-Install Java 8, Gradle and Mongo DB. 
+Install Java 8, Gradle and Mongo DB.
 
 For linux and OSX, the exact processes are different, but neither 
 is particularly hard.
@@ -21,9 +21,23 @@ is particularly hard.
    in particular). I used export JAVA_HOMR=/usr/lib/jvm/java-1.8.0.
 1. Mongo db - install this using 'yum install mongodb'
 
+### OSX (10.12, but older versions are mostly the same)
+1. Java 8 - This is already part of the OS
+1. Gradle - get this from _brew_ and install it using 
+```brew install gradle```
+You should get gradle 4.x or newer. 
+1. Mongo db ```brew install mongodb```
+
+### IDE notes
+This code uses _Gradle_, _Spring Boot_ (1.5.7), and _lombok_. It's easiest to
+set up your IDE so that these things are all configured. See the 
+_reporter_ documentation for information on that configuration. For
+IDEA, only _lombok_ needs to be added; for Eclipse use the _Eclipse Marketpalce_
+to add the Sring STS and Gradle Buildship plugins.
+
 ## Configuration 
 To configure the collector web application, you should set up the
-`application.properties` (in ./src/main/resources/) file with the
+_application.properties_ (in _src/main/resources/_) file with the
 correct data:
 
 ```
