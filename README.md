@@ -18,6 +18,8 @@ See the two subdirectories here for the _reporter_ and _collector_ projects.
 Each of the two subdirectories here contains a complete Java/Spring project
 that is built using gradle. If you don't have gradle installed, use the gradle
 wrapper build script ```gradlew```. To work on this software, it is easiest to 
-make two projects, one for the _reporter_ and a spearate one for the_collector_.
+make two projects, one for the _reporter_ and a spearate one for the _collector_.
 You should set these up to build using gradle, include the lombok code and enable
 them as spring-boot projects. Each directory has a Readme with more information.
+
+NOTE: That this one git repo has two separate projects
