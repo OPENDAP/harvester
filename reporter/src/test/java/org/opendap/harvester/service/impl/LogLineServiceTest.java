@@ -16,11 +16,11 @@ import static org.junit.Assert.assertNull;
 @ContextConfiguration(classes = {ReporterApplicationTest.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class LogLineServiceTest {
-    private static final String CORRECT = "[0:0:0:0:0:0:0:1] [-] [-] [2016-03-29T11:43:43.422 -0700] [   13 ms] [200] [       8] [HTTP-GET] [/opendap/hyrax/data/nc/fnoc1.nc.dods] []";
-    private static final String INCORRECT = "[0:0:0:0:0:0:0:1] [-] [2016-03-29T11:43:43.422 -0700] [   13 ms] [200] [       8] [HTTP-GET] [/opendap/hyrax/data/nc/fnoc1.nc.dods] []";
+    private static final String INCORRECT = "[0:0:0:0:0:0:0:1] [-] [-] [2016-03-29T11:43:43.422 -0700] [   13 ms] [200] [       8] [HTTP-GET] [/opendap/hyrax/data/nc/fnoc1.nc.dods] []";
+    private static final String CORRECT = "[0:0:0:0:0:0:0:1] [-] [2016-03-29T11:43:43.422 -0700] [   13 ms] [200] [       8] [HTTP-GET] [/opendap/hyrax/data/nc/fnoc1.nc.dods] []";
+
     @Autowired
     private LogLineService logLineService;
-
 
     @Test
     public void testThatCanNotParseNullLogLine(){

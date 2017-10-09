@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @todo I think this code can be merged into ReporterController. jhrg 10/8/17
+ */
 @RestController
 @RequestMapping("/")
 public class HealthCheckController {

@@ -1,8 +1,13 @@
 package org.opendap.harvester;
 
 import org.opendap.harvester.config.ConfigurationExtractor;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.EnvironmentTestUtils;
+
+// replace this with the line that follows. jhrg 10/7/17
+// import org.springframework.boot.test.EnvironmentTestUtils;
+import org.springframework.boot.test.util.EnvironmentTestUtils;
+
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

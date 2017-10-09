@@ -17,9 +17,10 @@ The log line should match the following pattern (newline added for clarity):
 ## Prerequirements
 To build the reporter war file you need:
 
-1. Java 7 - see the Readme for the collector for information about 
-   installing Java and gradle.
-2. Gradle
+1. Java 8 
+1. Gradle (Add Gradle support - Buildship Gradle Integration - Eclipse using the market place)
+1. Spring and Spring boot (install the Spring Tools - STS - in Eclipse)
+1. lombok (https://projectlombok.org/ - installs in Eclipse and IDEA)
 
 ## Builing and Installing the service
 1. Clone this project
