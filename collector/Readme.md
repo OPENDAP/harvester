@@ -6,6 +6,9 @@ Install Java 8, Gradle and Mongo DB.
 For linux and OSX, the exact processes are different, but neither 
 is particularly hard.
 
+Mongo DB documentation can be found at: https://docs.mongodb.com/
+and https://docs.mongodb.com/manual/
+
 ### Linux (CentOS)
 1. Java 8 - install this using yum; you may have to use the
    'alternatives' tool to set the correct version of Java. E.G.:
