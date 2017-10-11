@@ -2,9 +2,9 @@ package org.opendap.harvester;
 
 import com.github.fakemongo.Fongo;
 import com.mongodb.Mongo;
-import org.opendap.harvester.confiuration.SpringMongoDataConfig;
-import org.opendap.harvester.confiuration.springdatajava8.LocalDateTimeToStringConverter;
-import org.opendap.harvester.confiuration.springdatajava8.StringToLocalDateTimeConverter;
+import org.opendap.harvester.configuration.SpringMongoDataConfig;
+import org.opendap.harvester.configuration.springdatajava8.LocalDateTimeToStringConverter;
+import org.opendap.harvester.configuration.springdatajava8.StringToLocalDateTimeConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

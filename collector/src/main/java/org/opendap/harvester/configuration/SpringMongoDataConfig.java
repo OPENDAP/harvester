@@ -5,8 +5,8 @@ package org.opendap.harvester.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
-import org.opendap.harvester.confiuration.springdatajava8.LocalDateTimeToStringConverter;
-import org.opendap.harvester.confiuration.springdatajava8.StringToLocalDateTimeConverter;
+import org.opendap.harvester.configuration.springdatajava8.LocalDateTimeToStringConverter;
+import org.opendap.harvester.configuration.springdatajava8.StringToLocalDateTimeConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

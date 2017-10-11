@@ -72,3 +72,4 @@ crashlytics-build.properties
 /gradle/wrapper/gradle-wrapper.properties
 hs_err_pid*
 
+/collector.log
