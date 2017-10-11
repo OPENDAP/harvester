@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * This annotations tell us about what type of Spring bean it is.
- * It is Contrller. It means that it can receives REST requests.
+ * It is Controller. It means that it can receives REST requests.
  */
 @Controller
 @RequestMapping("/harvester")
@@ -33,7 +33,7 @@ public class HarvesterController {
     private HyraxInstanceService hyraxInstanceService;
 
     /**
-     * Called when /harvester/registration request come. Automatically setting up requst attributes to special object.
+     * Called when /harvester/registration request come. Automatically setting up request attributes to special object.
      * @param registerModel
      * @return
      * @throws Exception

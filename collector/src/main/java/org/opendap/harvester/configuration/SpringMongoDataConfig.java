@@ -1,7 +1,7 @@
 /**
  * DB Connection configuration
  */
-package org.opendap.harvester.confiuration;
+package org.opendap.harvester.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;

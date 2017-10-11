@@ -1,4 +1,4 @@
-package org.opendap.harvester.confiuration.springdatajava8;
+package org.opendap.harvester.configuration.springdatajava8;
 
 import org.springframework.core.convert.converter.Converter;
 

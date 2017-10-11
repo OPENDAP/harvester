@@ -1,4 +1,4 @@
-package org.opendap.harvester.confiuration;
+package org.opendap.harvester.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

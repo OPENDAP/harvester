@@ -6,6 +6,14 @@ sudo: false
 dist: trusty
 language: java
 
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
 # Must build with Java 8
 jdk:
   - openjdk8
@@ -56,3 +64,4 @@ addons:
     notification_email: jgallagher@opendap.org
     build_command: "(cd reporter && gradle war) && (cd collector && gradle jar) "
     branch_pattern: coverity_scan
+
