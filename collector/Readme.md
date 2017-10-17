@@ -36,7 +36,7 @@ This code uses _Gradle_, _Spring Boot_ (1.5.7), and _lombok_. It's easiest to
 set up your IDE so that these things are all configured. See the 
 _reporter_ documentation for information on that configuration. For
 IDEA, only _lombok_ needs to be added; for Eclipse use the _Eclipse Marketpalce_
-to add the Sring STS and Gradle Buildship plugins.
+to add the Spring STS and Gradle Buildship plugins.
 
 ## Configuration 
 To configure the collector web application, you should set up the
@@ -93,7 +93,4 @@ instance
 * **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]() - 
 returns a string representation of the list of all log lines
 harvestered from a specific Hyrax instance
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/opendap/harvester.git
