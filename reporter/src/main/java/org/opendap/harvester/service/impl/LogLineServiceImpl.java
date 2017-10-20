@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-
 @Service
 public class LogLineServiceImpl implements LogLineService {
     private static final String TIME_FIELD = "localDateTime";

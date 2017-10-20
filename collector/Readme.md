@@ -93,7 +93,3 @@ instance
 * **GET** [/harvester/logLines/string? hyraxInstanceName=http://xxx]() - 
 returns a string representation of the list of all log lines
 harvestered from a specific Hyrax instance
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/opendap/harvester.git
