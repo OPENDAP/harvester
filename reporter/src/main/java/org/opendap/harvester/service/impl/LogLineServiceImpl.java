@@ -11,6 +11,7 @@ import org.opendap.harvester.service.LogLineService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+//import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -18,20 +19,21 @@ import java.util.regex.Matcher;
 public class LogLineServiceImpl implements LogLineService {
     private static final String TIME_FIELD = "localDateTime";
 
-    @Override
+    //@Override
     public LocalDateTime getLocalDateTime(LogLine logLine) {
         Map<String, String> logLineValues = logLine.getValues();
         return toGMT(logLineValues.get(TIME_FIELD));
     }
 
-    @Override
+    //@Override
     public LogLine parseLogLine(String line, LinePatternConfig config) {
         if (line == null || config == null) {
             return null;
         }
 
         String[] names = config.getNames();
-        Map<String, String> logLine = new HashMap<>();
+        
+  Map<String, String> logLine = new HashMap<>();
 
         Matcher matcher = config.getPattern().matcher(line.trim());
         if (matcher.matches()) {
@@ -41,9 +43,10 @@ public class LogLineServiceImpl implements LogLineService {
         }
 
         return LogLine.builder().values(logLine).build();
-    }
+    }    
 
-    @Override
+
+    //@Override
     public LogLineDto buildDto(LogLine logLine) {
         return LogLineDto.builder().values(logLine.getValues()).build();
     }
@@ -61,4 +64,5 @@ public class LogLineServiceImpl implements LogLineService {
                 DateTime.parse(zoneString, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS Z"));
         return zonedDateTime.toDateTime(DateTimeZone.UTC).toLocalDateTime();
     }
+
 }
